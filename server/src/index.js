@@ -2,6 +2,7 @@ const app = require('express')()
 const server = require('http').createServer(app)
 const bodyParser = require('body-parser')
 
+
 //MIDDLEWARES
 app.use(bodyParser.json()) //Parsed data is populated on the request object (i.e. req.body).
 app.use(bodyParser.urlencoded( { extended: true }))
@@ -13,15 +14,35 @@ app.use( (req, res, next ) => {
   next()
 })
 
-app.get('/', (req, res) => {
-  res
-    .status(200)
-    .json({ name: 'Achraf', message: 'Hello Wolrd!' })
-})
+
+// Database
+const MongoClient = require('mongodb').MongoClient;
+const url = 'mongodb://localhost:27017/sync';
+var db;
+
+MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(client => {
+    console.log("connection to database established...  ");
+
+    db = client.db("sync");
+
+    app.use((req, res, next) => {
+      req.db = db
+      next();
+    })
+
+    app.get('/', (req, res) => {
+      res
+        .status(200)
+        .json({ name: 'Achraf', message: 'Hello Wolrd!' })
+    })
+
+  })
+  .catch(err => {console.log(err)})
 
 
 
-//Listening
+// Listening
 const PORT = process.env.PORT | 5000;
 app.listen(PORT, () => {
   console.log("Running on port " + PORT)
