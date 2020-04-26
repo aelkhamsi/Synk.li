@@ -3,7 +3,9 @@ const server = require('http').createServer(app)
 const bodyParser = require('body-parser')
 
 
-//MIDDLEWARES
+///////////////////////////////////////
+//////////// MIDDLEWARES //////////////
+///////////////////////////////////////
 app.use(bodyParser.json()) //Parsed data is populated on the request object (i.e. req.body).
 app.use(bodyParser.urlencoded( { extended: true }))
 app.use( (req, res, next ) => {
@@ -15,7 +17,9 @@ app.use( (req, res, next ) => {
 })
 
 
-// Database
+////////////////////////////////////////
+////////////// DATABASE ////////////////
+////////////////////////////////////////
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017/sync';
 var db;
@@ -41,9 +45,21 @@ MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
   .catch(err => {console.log(err)})
 
 
+///////////////////////////////////////
+///////// SOCKET CONNECTION ///////////
+///////////////////////////////////////
+var sockets = [];
+const SOCKET_PORT = process.env.SOCKET_PORT | 3000
+const io = require('socket.io')(SOCKET_PORT);
 
-// Listening
-const PORT = process.env.PORT | 5000;
-app.listen(PORT, () => {
-  console.log("Running on port " + PORT)
+io.on('connection', (socket) => {})
+
+
+///////////////////////////////////////
+///////// SERVER CONNECTION ///////////
+///////////////////////////////////////
+const SERVER_PORT = process.env.SERVER_PORT | 5000;
+
+app.listen(SERVER_PORT, () => {
+  console.log("Running on port " + SERVER_PORT)
 })
