@@ -1,0 +1,63 @@
+<app-header></app-header>
+
+<div class="container">
+    <div class="box">
+
+        <div class="headline-container">
+            <h1>Create a Room</h1>
+            <!-- <p class="grey-text">Need an account ? <a href="" routerLink='/signup'>Sign Up</a></p> -->
+        </div>
+        
+
+        <div class="form-container">
+            <form [formGroup]="createForm" (submit)="onCreate()">
+                
+                <!-- Value : {{ createForm.value | json }} -->
+
+                <mat-form-field class="form-control">
+                    <input matInput placeholder="Username" formControlName="usernameCreate" type="text">
+                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                </mat-form-field>
+                
+                <div class="submit-button-container">
+                    <div class="submit-button-container">
+                        <button mat-raised-button type="submit" class="submit-button" color="primary"> Create Room </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>  
+    </div>
+
+    <div class="box">
+
+        <div class="headline-container">
+            <h1>Join a Room</h1>
+            <!-- <p class="grey-text">Need an account ? <a href="" routerLink='/signup'>Sign Up</a></p> -->
+        </div>
+        
+
+        <div class="form-container">
+            <form [formGroup]="joinForm" (submit)="onJoin()">
+                
+                Value : {{ joinForm.value | json }}
+
+                <mat-form-field class="form-control">
+                    <input matInput placeholder="Room ID" formControlName="roomId">
+                </mat-form-field>
+
+                <mat-form-field class="form-control">
+                    <input matInput placeholder="Username" formControlName="usernameJoin" type="text">
+                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
+                </mat-form-field>
+                
+                <div class="submit-button-container">
+                    <div class="submit-button-container">
+                        <button mat-raised-button type="submit" class="submit-button" color="primary"> Join Room </button>
+                    </div>
+                </div>
+
+            </form>
+        </div>  
+    </div>
+</div>

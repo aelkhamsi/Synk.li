@@ -1,0 +1,57 @@
+
+a {
+    color: #75adea;
+}
+
+h1 {
+    font-weight: 100;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.box {
+    width: 48%;
+    height: 50%;
+    margin-top: 50px;
+        border: solid rgb(173, 173, 173) 1px;
+    box-shadow: 2px 2px 8px 0px rgb(184, 184, 184);
+}
+
+
+//Headline
+.headline-container {
+    width: 85%;
+    margin: 40px auto;
+}
+.grey-text {
+    color: rgb(146, 146, 146);
+}
+
+//Form
+.form-container {
+    width: 85%;
+    margin: 40px auto;
+}
+
+.form-control {
+    width: 100%;
+}
+
+.submit-button-container {
+    margin-top: 30px;
+}
+
+// .submit-button:hover {
+//     background: #db003b;
+// }
+
+.submit-button {
+    width: 30%;
+    height: 50px;
+    font-size: 14pt;
+    font-weight: 100;
+}
+

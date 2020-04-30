@@ -1,17 +1,22 @@
 import { NgModule } from '@angular/core';
 
+import { MatFormFieldModule, MatInputModule } from '@angular/material';
+import {MatButtonModule} from '@angular/material';
 import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatTabsModule} from '@angular/material/tabs';
+import {MatIconModule} from '@angular/material/icon';
+import {MatSnackBarModule} from '@angular/material';
 
-var materials = [
-  MatToolbarModule,
-  MatMenuModule,
-  MatTabsModule
-]
+const modules = [
+    MatButtonModule,
+    MatToolbarModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatSnackBarModule
+];
 
 @NgModule({
-    imports: materials,
-    exports: materials
+    imports: [...modules],
+    exports: [...modules]
 })
 export class MaterialModule {}
