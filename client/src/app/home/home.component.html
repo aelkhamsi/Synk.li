@@ -1,63 +1,80 @@
-<app-header></app-header>
-
 <div class="container">
-    <div class="box">
+    <header>
+        <a href="#">
+            <img src="../../assets/images/sync.png" alt="sync logo" class="logo">
+        </a>
 
-        <div class="headline-container">
-            <h1>Create a Room</h1>
-            <!-- <p class="grey-text">Need an account ? <a href="" routerLink='/signup'>Sign Up</a></p> -->
-        </div>
+        <nav>
+            <a href="#" class="show-mobile hide-desktop">
+                <img src="../../assets/images/ham.svg" alt="toggle menu" class="menu" id="menu">
+            </a>
+
+            <ul class="show-desktop hide-mobile" id="nav">
+                <li id="exit" class="show-mobile hide-desktop">
+                    <a href="#">
+                        <img src="../../assets/images/exit.svg" alt="exit button">
+                    </a>
+                </li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Get Started</a></li>
+                <li><a href="#">Sign in</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section>
+        <img src="../../assets/images/mirage-romantic-relationships.png" alt="illustration" class="illustration">
+        <h1>The app that will bring you together</h1>
+        <p class="subhead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem soluta, neque maiores magni accusamus ipsum quas. Voluptates deleniti modi porro ratione totam nobis cupiditate omnis rem, reiciendis quos nisi fugiat.</p>
+
         
+        <img src="../../assets/images/scroll.svg" alt="scroll animation" class="scroll show-desktop hide-mobile">
 
-        <div class="form-container">
-            <form [formGroup]="createForm" (submit)="onCreate()">
-                
-                <!-- Value : {{ createForm.value | json }} -->
+        <a href="#" class="cta show-mobile hide-desktop"> Get Started </a>
+    </section>
+</div>
 
-                <mat-form-field class="form-control">
-                    <input matInput placeholder="Username" formControlName="usernameCreate" type="text">
-                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-                </mat-form-field>
-                
-                <div class="submit-button-container">
-                    <div class="submit-button-container">
-                        <button mat-raised-button type="submit" class="submit-button" color="primary"> Create Room </button>
-                    </div>
-                </div>
 
-            </form>
-        </div>  
-    </div>
-
-    <div class="box">
-
-        <div class="headline-container">
-            <h1>Join a Room</h1>
-            <!-- <p class="grey-text">Need an account ? <a href="" routerLink='/signup'>Sign Up</a></p> -->
-        </div>
-        
-
-        <div class="form-container">
-            <form [formGroup]="joinForm" (submit)="onJoin()">
-                
-                Value : {{ joinForm.value | json }}
-
-                <mat-form-field class="form-control">
-                    <input matInput placeholder="Room ID" formControlName="roomId">
-                </mat-form-field>
-
-                <mat-form-field class="form-control">
-                    <input matInput placeholder="Username" formControlName="usernameJoin" type="text">
-                    <!-- <mat-icon matSuffix>sentiment_very_satisfied</mat-icon> -->
-                </mat-form-field>
-                
-                <div class="submit-button-container">
-                    <div class="submit-button-container">
-                        <button mat-raised-button type="submit" class="submit-button" color="primary"> Join Room </button>
-                    </div>
-                </div>
-
-            </form>
-        </div>  
+<div class="red-container">
+    <div class="container">
+        <ul>
+            <li>
+                <img src="../../assets/images/icon-1.svg" alt="icon1">
+                <p class="red-container-subhead">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur itaque incidunt, possimus ducimus vitae sunt necessitatibus culpa ipsum ex voluptates natus atque accusantium, sapiente aliquam eum? Aliquam et expedita omnis.</p>
+            </li>
+            <li>
+                <img src="../../assets/images/icon-2.svg" alt="icon2">
+                <p class="red-container-subhead">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur itaque incidunt, possimus ducimus vitae sunt necessitatibus culpa ipsum ex voluptates natus atque accusantium, sapiente aliquam eum? Aliquam et expedita omnis.</p>
+            </li>
+            <li>
+                <img src="../../assets/images/icon-3.svg" alt="icon3">
+                <p class="red-container-subhead">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Consequatur itaque incidunt, possimus ducimus vitae sunt necessitatibus culpa ipsum ex voluptates natus atque accusantium, sapiente aliquam eum? Aliquam et expedita omnis.</p>
+            </li>
+        </ul>
     </div>
 </div>
+
+
+<div class="light-grey-container">
+    <div class="container">
+        <a href="#" class="cta">Get Started</a>
+    </div>
+</div>
+
+
+
+<div class="grey-container">
+    <div class="container">
+        <footer>
+            <a href="#">
+                <img src="../../assets/images/sync.png" alt="sync logo" class="logo">
+            </a>
+
+            <ul class="footer-links">
+                <a href="#"><li>Terms of use</li></a>
+                <a href="#"><li>Privacy Policy</li></a>
+            </ul>
+        </footer>
+    </div>
+</div>
+

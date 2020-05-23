@@ -1,13 +1,21 @@
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
+
+
+
+html, body {
+    overflow-x: hidden;    
+}
 
 body {
     margin: 0;
     font-family: 'Montserrat', sans-serif;
+    position: relative;
 }
 
 p, blockquote {
     font-size: .9em; //1em == 16px
-    line-height: 1.6em;
+    line-height: 1.4em;
 }
 
 ul {
@@ -16,11 +24,12 @@ ul {
     padding: 0;
 }
 
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
 .container {
-
-    width: 68%;
-    margin-left: 16%;
-    height: 100%;
-
-    //background: rgb(236, 236, 236);
+    text-align: center;
+    padding: 0em 1em;   
 }

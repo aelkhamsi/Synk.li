@@ -1,57 +1,121 @@
 
-a {
-    color: #75adea;
+
+.logo { //the width of the logo won't change between desktop and mobile
+    width: 80px;
+    height: 75px;
+    margin-top: 2%;
 }
 
-h1 {
-    font-weight: 100;
+.hide-mobile {
+    display: none;
 }
 
-.container {
+header {
     display: flex;
     justify-content: space-between;
 }
 
-.box {
-    width: 48%;
-    height: 50%;
-    margin-top: 50px;
-        border: solid rgb(173, 173, 173) 1px;
-    box-shadow: 2px 2px 8px 0px rgb(184, 184, 184);
+.menu {
+    margin-top: 150%;
 }
 
-
-//Headline
-.headline-container {
-    width: 85%;
-    margin: 40px auto;
-}
-.grey-text {
-    color: rgb(146, 146, 146);
+.illustration {
+    width:40%;
 }
 
-//Form
-.form-container {
-    width: 85%;
-    margin: 40px auto;
+h1, .subhead {
+    position: relative; 
+    z-index: 3;
 }
 
-.form-control {
+.subhead {
+    font-size: .8em;
+    padding: 0 2em;
+}
+
+.red-container {
     width: 100%;
+    background-color: #F24423;
+    color: white;
+    margin-top: 10%;
+    padding: 7% 3%;
+    font-size: .8em;
+    border-top-left-radius: 40px;
+    transform: skewY(-2deg);
 }
 
-.submit-button-container {
-    margin-top: 30px;
+.red-container:before {
+    content: "";
+    width: 40px;
+    height: 40px;
+    background: #F24423;
+    position: absolute;
+    top: -39px;
+    right: 20px;
+    z-index: 1;
 }
 
-// .submit-button:hover {
-//     background: #db003b;
-// }
+.red-container:after {
+    content: "";
+    width: 80px;
+    height: 80px;
+    background: white;
+    position: absolute;
+    border-radius: 50px;
+    top: -80px;
+    right: 22px;
+    z-index: 2;
+}
 
-.submit-button {
+.red-container ul {
+    transform: skewY(2deg);
+}
+
+.red-container-subhead {
+    padding-left: 5%;
+    padding-right: 9%;
+}
+
+.light-grey-container {
+    background: whitesmoke;
+    margin-top: -8%;
+    padding-top: 8%;
+    padding-bottom: 6%;
+}
+
+.cta {
+    display: block;
+    font-weight: bold;
     width: 30%;
-    height: 50px;
-    font-size: 14pt;
-    font-weight: 100;
+    margin-left: 32%;
+    color: white;
+    background: #F24423;
+    margin-top: 5%;
+    padding: 5%;
+    border-radius: 25px;
+    transition: 0.5s;
 }
+
+.cta:hover {
+    // background: rgb(195, 52, 23);
+    background: #A870FB;
+}
+
+.grey-container {
+    color: white;
+    background: rgb(77, 76, 76);
+    margin-top: -2%;
+    padding: 2%;
+}
+
+.footer-links li:nth-child(1) {
+    display: inline;
+    margin-right: 2%;
+}
+
+.footer-links li:nth-child(1) {
+    display: inline;
+    margin-left: 2%;
+}
+
 
