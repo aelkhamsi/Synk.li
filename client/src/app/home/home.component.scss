@@ -38,13 +38,18 @@ h1, .subhead {
     display: none;
 }
 
+.buttons {
+    display: flex;
+    justify-content: space-evenly;
+}
+
 .red-container {
     width: 100%;
     background-color: #F24423;
     color: white;
     margin-top: 10%;
-    padding: 7% 3%;
-    font-size: .8em;
+    padding: 2% 1%;
+    font-size: 1em;
     border-top-left-radius: 40px;
     transform: skewY(-2deg);
 }
@@ -56,7 +61,7 @@ h1, .subhead {
     background: #F24423;
     position: absolute;
     top: -39px;
-    right: 20px;
+    right: 19px;
     z-index: 1;
 }
 
@@ -68,11 +73,11 @@ h1, .subhead {
     position: absolute;
     border-radius: 50px;
     top: -80px;
-    right: 22px;
+    right: 19px;
     z-index: 2;
 }
 
-.red-container ul {
+.red-container ul, .red-container h1 {
     transform: skewY(2deg);
 }
 
@@ -177,7 +182,7 @@ nav ul a:hover {
     }
 
     .cta {
-        width: 20%;
+        width: 25%;
     }
 
     .red-container {
@@ -286,6 +291,15 @@ nav ul a:hover {
     .subhead {
         font-size: 1.2em;
         padding: 0 2em;
+    }
+
+    .cta {
+        width: 20%;
+    }
+
+    .logo { //the width of the logo won't change between desktop and mobile
+        width: 90px;
+        height: 85px;
     }
 }
 
