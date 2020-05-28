@@ -26,6 +26,20 @@ export class HomeComponent implements OnInit {
     private _snackBar: MatSnackBar ) {}
 
   ngOnInit() {
+    //Toggle Menu
+    var menu = document.getElementById('menu');
+    var nav = document.getElementById('nav');
+    var exit = document.getElementById('exit');
+    menu.addEventListener('click', function(e) {
+      nav.classList.toggle('hide-mobile');
+      // e.preventDefault();
+    });
+    exit.addEventListener('click', function(e) {
+      nav.classList.toggle('hide-mobile');
+      // e.preventDefault();
+    });
+
+    //Form
     this.createForm = this.fb.group({
       usernameCreate: ['', Validators.required],
     });

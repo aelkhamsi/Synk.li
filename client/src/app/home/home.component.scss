@@ -16,11 +16,12 @@ header {
 }
 
 .menu {
-    margin-top: 150%;
+    margin-top: 100%;
+    cursor: pointer;
 }
 
 .illustration {
-    width:40%;
+    width: 40%;
 }
 
 h1, .subhead {
@@ -31,6 +32,10 @@ h1, .subhead {
 .subhead {
     font-size: .8em;
     padding: 0 2em;
+}
+
+.core-section-2 {
+    display: none;
 }
 
 .red-container {
@@ -87,18 +92,20 @@ h1, .subhead {
     display: block;
     font-weight: bold;
     width: 30%;
-    margin-left: 32%;
+    margin: auto;
+    // margin-left: 32%;
     color: white;
     background: #F24423;
     margin-top: 5%;
-    padding: 5%;
+    margin-bottom: 5%;
+    padding: 3% 5%;
     border-radius: 25px;
-    transition: 0.5s;
+    z-index: 5;
 }
 
 .cta:hover {
-    // background: rgb(195, 52, 23);
     background: #A870FB;
+    transition: 0.5s;
 }
 
 .grey-container {
@@ -108,14 +115,186 @@ h1, .subhead {
     padding: 2%;
 }
 
-.footer-links li:nth-child(1) {
-    display: inline;
-    margin-right: 2%;
-}
-
-.footer-links li:nth-child(1) {
-    display: inline;
-    margin-left: 2%;
+.footer-links {
+    font-size: 0.7em;
+    color: white;
+    display: flex;
+    justify-content: space-evenly;
 }
 
 
+nav ul {
+    position: fixed;
+    width: 40%;
+    top: 0;
+    right: 0;
+    text-align: left;
+    background: #333;
+    height: 100%;
+    z-index: 10;
+    padding-top: 1em;
+}
+
+
+
+nav ul a {
+    color: white;
+    display: block;
+    width: 100%;
+    padding: 1em 2em;
+    background-color: rgb(58, 58, 58);
+}
+
+
+nav ul a:hover {
+    background-color: #444;
+    transition: .7s;
+}
+
+.exit-btn {
+    margin-bottom: 1em;
+    text-align: right;
+    padding: 0 1.1em;
+}
+
+.exit-btn img {
+    cursor: pointer;
+}
+
+
+@media only screen and (min-width: 650px) {
+    .illustration {
+        width: 35%;
+    }
+    
+    h1 {
+        font-size: 1.8em; 
+    }
+
+    .subhead {
+        font-size: .9em;
+        padding: 0 2em;
+    }
+
+    .cta {
+        width: 20%;
+    }
+
+    .red-container {
+        margin: 0;
+    } 
+
+}
+
+@media only screen and (min-width: 800px) {
+    .container {
+        width: 80%;
+        margin: auto;
+    }
+
+    h1 {
+        font-size: 2.2em; 
+    }
+
+    .subhead {
+        font-size: 1em;
+        padding: 0 2em;
+    }
+
+    .red-container ul {
+        display: flex;
+    }
+}
+
+@media only screen and (min-width: 1024px) {
+    .show-desktop {
+        display: block;
+    }
+
+    .hide-desktop {
+        display: none;
+    }
+
+    nav ul {
+        position: inherit;
+        width: auto;
+        background: none;
+        height: auto;
+        display: flex;
+    }
+
+    nav ul li a {
+        color: black;
+        background-color: inherit;
+        padding: 1em 1.5em;
+    }
+
+    nav ul li a:nth-child(2) {
+        background: red;
+    }
+
+    .container {
+        width: 65%;
+        margin: 1% auto 1% auto;
+    }
+
+    .core-section-2 {
+        display: flex;
+        margin-top: 7%;
+    }
+
+    .core-section-1 {
+        display: none;
+    }
+
+    h1 {
+        font-size: 1.8em; 
+    }
+
+    .subhead {
+        font-size: 1em;
+        padding: 0 2em;
+    }
+
+    .title-subhead {
+        margin: auto;
+    }
+
+    .scroll {
+        margin: auto;
+        width: 30px;
+        animation: move 1s infinite alternate;
+        margin-bottom: 8%;
+    }
+
+    @keyframes move {
+        0% {
+            transform: translateY(0px)
+        }
+        100% {
+            transform: translateY(30px)
+        }
+    }
+}
+
+
+@media only screen and (min-width: 1400px) {
+    h1 {
+        font-size: 2.5em; 
+    }
+
+    .subhead {
+        font-size: 1.2em;
+        padding: 0 2em;
+    }
+}
+
+@media only screen and (min-width: 1600px) {
+    h1 {
+        font-size: 2.7em; 
+    }
+
+    .cta {
+        width: 15%;
+    }
+}
