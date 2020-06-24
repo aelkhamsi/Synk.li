@@ -2,6 +2,8 @@ const app = require('express')()
 const server = require('http').createServer(app)
 const bodyParser = require('body-parser')
 
+const authRouter = require('./routes/auth.js');
+
 
 ///////////////////////////////////////
 //////////// MIDDLEWARES //////////////
@@ -29,17 +31,24 @@ MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
     console.log("connection to database established...  ");
 
     db = client.db("sync");
+    db.createCollection('users'); //Normally, if it already exists, it shoudn't do anything, but I'm not sure
+
+    ///////////////////
+    //// ROUTING //////
+    ///////////////////
 
     app.use((req, res, next) => {
       req.db = db
       next();
     })
 
-    app.get('/', (req, res) => {
-      res
-        .status(200)
-        .json({ name: 'Achraf', message: 'Hello Wolrd!' })
-    })
+    // app.get('/', (req, res) => {
+    //   res
+    //     .status(200)
+    //     .json({ name: 'Achraf', message: 'Hello Wolrd!' })
+    // })
+
+    app.use('/auth', authRouter)
 
   })
   .catch(err => {console.log(err)})
