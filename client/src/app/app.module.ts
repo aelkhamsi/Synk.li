@@ -8,16 +8,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material';
 import { AppRoutingModule } from './app-routing.module';
 
+import { AuthModule } from './modules/auth/auth.module';
+import { LandingModule } from './modules/landing/landing.module';
+
 
 import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
 import { RoomComponent } from './room/room.component';
 import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     RoomComponent,
     HeaderComponent
   ],
@@ -30,6 +31,9 @@ import { HeaderComponent } from './components/header/header.component';
     ReactiveFormsModule,
     MaterialModule,
 
+    //Modules
+    AuthModule,
+    LandingModule,
     AppRoutingModule
   ],
   providers: [],
