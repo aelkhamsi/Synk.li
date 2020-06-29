@@ -1,7 +1,12 @@
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
+// @import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import './my-theme.scss';
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600');
 
 
+:root{
+    --main-color: #F24423;
+    --secondary-color: #0066cc;
+}
 
 html, body {
     overflow-x: hidden;    
@@ -33,3 +38,6 @@ a {
     text-align: center;
     padding: 0em 1em;   
 }
+
+
+

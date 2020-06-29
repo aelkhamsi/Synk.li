@@ -7,7 +7,8 @@ import { AuthRoutingModule } from './auth-routing.module';
 import { LoginPage } from './pages/login/login.page';
 import { SignupPage } from './pages/signup/signup.page';
 import { HeaderComponent } from './components/header/header.component';
-import { TestComponent } from './components/test/test.component';
+import { LoginBoxComponent } from './components/login-box/login-box.component';
+import { SignupBoxComponent } from './components/signup-box/signup-box.component';
 
 
 
@@ -16,7 +17,7 @@ import { TestComponent } from './components/test/test.component';
     LoginPage, 
     SignupPage, 
     HeaderComponent, 
-    TestComponent
+    LoginBoxComponent, SignupBoxComponent
   ],
   imports: [
     CommonModule,

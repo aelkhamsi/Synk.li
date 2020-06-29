@@ -40,9 +40,13 @@
     height: 50px;
     font-size: 14pt;
     font-weight: 100;
+    background: var(--main-color);
+    color: white;
 }
 
-
+.eye-icon:hover {
+    cursor: pointer;
+} //handle the javascript after
   
 
 
