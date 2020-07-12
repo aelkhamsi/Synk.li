@@ -6,26 +6,30 @@
           <p class="grey-text">Need an account ? <a [routerLink]="['/signup']" class="link-blue">Sign Up</a></p>
         </div>
 
-        <form>
-          <mat-form-field class="form-control">
-              <input matInput placeholder="Email" formControlName="email">
-          </mat-form-field>
+        <form [formGroup]="loginForm">
 
-          <mat-form-field class="form-control">
-              <input matInput placeholder="Password" type="password" formControlName="password">
-              <mat-icon matSuffix  class="eye-icon">remove_red_eye</mat-icon>
-          </mat-form-field>
-        </form>
+            {{ loginForm.value | json }}
 
-        <div class="submit-button-container">
-          <div>
-              <mat-checkbox color="primary" formControlName="keepConnection">Keep me signed in</mat-checkbox>
-          </div>
-          
-          <div class="submit-button-container">
-              <button mat-raised-button type="submit" class="submit-button primary-color"> Log In </button>
-          </div>
-      </div>
+            <mat-form-field class="form-control">
+                <input matInput placeholder="Email" formControlName="email">
+            </mat-form-field>
+
+            <mat-form-field class="form-control">
+                <input matInput placeholder="Password" type="password" formControlName="password">
+                <mat-icon matSuffix class="eye-icon">remove_red_eye</mat-icon>
+            </mat-form-field>
+
+            <div class="submit-button-container">
+                <div>
+                    <mat-checkbox color="primary" formControlName="keepConnection">Keep me signed in</mat-checkbox>
+                </div>
+                
+                <div class="submit-button-container">
+                    <button mat-raised-button type="submit" class="submit-button primary-color"> Log In </button>
+                </div>
+            </div>
+
+      </form>
     </div>
 
 </div>
