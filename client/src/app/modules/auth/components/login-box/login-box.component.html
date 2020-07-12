@@ -8,24 +8,39 @@
 
         <form [formGroup]="loginForm">
 
-            {{ loginForm.value | json }}
+            <!-- {{ loginForm.value | json }} -->
 
             <mat-form-field class="form-control">
                 <input matInput placeholder="Email" formControlName="email">
             </mat-form-field>
+            <div *ngIf="formSubmitted && f.email.errors" class="invalid-feedback">
+                <div *ngIf="f.email.errors.required">Email is required</div>
+                <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+            </div>
+
 
             <mat-form-field class="form-control">
-                <input matInput placeholder="Password" type="password" formControlName="password">
-                <mat-icon matSuffix class="eye-icon">remove_red_eye</mat-icon>
+                <input matInput placeholder="Password" [type]="fieldTextType ? 'text' : 'password'" formControlName="password">
+                <mat-icon matSuffix class="eye-icon" (click)="toggleFieldTextType()">remove_red_eye</mat-icon>
             </mat-form-field>
+            <div *ngIf="formSubmitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">Password is required</div>
+                <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+            </div>
+            
 
             <div class="submit-button-container">
                 <div>
-                    <mat-checkbox color="primary" formControlName="keepConnection">Keep me signed in</mat-checkbox>
+                    <mat-checkbox 
+                      color="primary" 
+                      formControlName="keepConnection"
+                    >
+                      Keep me signed in
+                    </mat-checkbox>
                 </div>
                 
                 <div class="submit-button-container">
-                    <button mat-raised-button type="submit" class="submit-button primary-color"> Log In </button>
+                    <button mat-raised-button type="submit" class="submit-button primary-color" (click)="onSubmit()"> Log In </button>
                 </div>
             </div>
 
