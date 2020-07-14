@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AuthModule } from './modules/auth/auth.module';
 import { LandingModule } from './modules/landing/landing.module';
+import { MainModule } from './modules/main/main.module';
 
 
 import { AppComponent } from './app.component';
@@ -34,6 +35,7 @@ import { HeaderComponent } from './components/header/header.component';
     //Modules
     AuthModule,
     LandingModule,
+    MainModule,
     AppRoutingModule
   ],
   providers: [],
