@@ -42,12 +42,6 @@ MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
       next();
     })
 
-    // app.get('/', (req, res) => {
-    //   res
-    //     .status(200)
-    //     .json({ name: 'Achraf', message: 'Hello Wolrd!' })
-    // })
-
     app.use('/auth', authRouter)
 
   })

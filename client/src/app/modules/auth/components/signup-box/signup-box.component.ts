@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MustMatch } from '../../_helpers/must-match.validator';
+import { AuthService } from '../../../../services/auth/auth.service';
+
 
 @Component({
   selector: 'app-signup-box',
@@ -13,7 +15,10 @@ export class SignupBoxComponent implements OnInit {
   fieldTextType: Boolean = false;
   formSubmitted: Boolean = false;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
     this.signupForm = this.fb.group({
@@ -33,7 +38,11 @@ export class SignupBoxComponent implements OnInit {
   onSubmit() {
     this.formSubmitted = true;
     if (this.signupForm.invalid) return;
-    console.log(this.signupForm.value);
+    const data = this.signupForm.value;
+    this.authService.signup(data.username, data.email, data.password)
+      .subscribe(resp => {
+        alert(resp);
+      });
   }
 
   // convenience getter for easy access to form fields

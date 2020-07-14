@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { environment } from '../../environments/environment';
+import { environment } from '../../../environments/environment';
 // import { Socket } from 'dgram';
-import { ResponseDTO } from '../models/response-dto';
+import { ResponseDTO } from '../../models/response-dto';
 
 @Injectable({
   providedIn: 'root'

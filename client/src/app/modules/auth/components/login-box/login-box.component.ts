@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+import { AuthService } from '../../../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login-box',
@@ -13,7 +14,10 @@ export class LoginBoxComponent implements OnInit {
   fieldTextType: Boolean = false;
   formSubmitted: Boolean = false;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder, 
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
     this.loginForm = this.fb.group({
@@ -27,10 +31,15 @@ export class LoginBoxComponent implements OnInit {
     this.fieldTextType = !this.fieldTextType;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.formSubmitted = true;
     if (this.loginForm.invalid) return;
-    console.log(this.loginForm.value);
+
+    const data = this.loginForm.value;
+    this.authService.login(data.email, data.password)
+        .subscribe( resp => {
+          alert(resp);
+        });
   }
 
   // convenience getter for easy access to form fields

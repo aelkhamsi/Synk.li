@@ -4,7 +4,7 @@ import * as io from 'socket.io-client';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
 //import { Socket } from 'net';
-import { RoomService } from '../services/room.service';
+import { RoomService } from '../services/room/room.service';
 import { MatSnackBar } from '@angular/material';
 
 @Component({
