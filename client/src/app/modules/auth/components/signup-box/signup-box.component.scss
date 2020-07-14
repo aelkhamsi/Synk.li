@@ -32,7 +32,7 @@
 }
 
 .submit-button:hover {
-    background: #cf0037;
+    background: #db003b;
 }
 
 .submit-button {
@@ -40,18 +40,22 @@
     height: 50px;
     font-size: 14pt;
     font-weight: 100;
-    color: white;
     background: var(--main-color);
+    color: white;
 }
 
 .eye-icon:hover {
     cursor: pointer;
-}
-
+} //handle the javascript after
+  
 .link-blue {
     color: #0645AD;
 }
 
-  
-
+.invalid-feedback {
+    color: rgb(161, 0, 0);
+    font-size: small;
+    text-align: left;
+    margin-bottom: 17px;
+}
 
