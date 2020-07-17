@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthService } from '../../../../services/auth/auth.service';
+
 
 @Component({
   selector: 'app-login-box',
@@ -16,7 +18,9 @@ export class LoginBoxComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder, 
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
+    private _snackBar: MatSnackBar,
   ) {}
 
   ngOnInit() {
@@ -26,6 +30,7 @@ export class LoginBoxComponent implements OnInit {
       keepConnection: false
     })
   }
+  
 
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
@@ -34,15 +39,27 @@ export class LoginBoxComponent implements OnInit {
   onSubmit(): void {
     this.formSubmitted = true;
     if (this.loginForm.invalid) return;
-
+    
     const data = this.loginForm.value;
     this.authService.login(data.email, data.password)
-        .subscribe( resp => {
-          alert(resp);
-        });
+        .subscribe( res => {
+          this.authService.authenticate(res.token);
+          this.router.navigate(['dashboard']);
+        }, (error) => {
+          if (error.status == 500)
+            this.openSnackBar("Internal Server error. Please try later", "Error");
+          else
+            this.openSnackBar(error.error.errorMessage, "Error");
+        })
   }
 
   // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+    });
+  }
 
 }

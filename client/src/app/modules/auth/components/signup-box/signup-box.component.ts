@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MustMatch } from '../../_helpers/must-match.validator';
 import { AuthService } from '../../../../services/auth/auth.service';
-
+import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-signup-box',
@@ -17,7 +18,9 @@ export class SignupBoxComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
+    private _snackBar: MatSnackBar
   ) {}
 
   ngOnInit() {
@@ -38,14 +41,27 @@ export class SignupBoxComponent implements OnInit {
   onSubmit() {
     this.formSubmitted = true;
     if (this.signupForm.invalid) return;
+
     const data = this.signupForm.value;
     this.authService.signup(data.username, data.email, data.password)
-      .subscribe(resp => {
-        alert(resp);
-      });
+      .subscribe( res => {
+        this.authService.authenticate(res.token);
+        this.router.navigate(['dashboard']);
+      }, (error) => {
+        if (error.status == 500)
+          this.openSnackBar("Internal Server error. Please try later", "Error");
+        else
+          this.openSnackBar(error.error.errorMessage, "Error");
+      })
   }
 
   // convenience getter for easy access to form fields
   get f() { return this.signupForm.controls; }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000,
+    });
+  }
 
 }

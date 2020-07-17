@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt';
+
 import { environment } from '../../../environments/environment';
 
 
@@ -16,10 +18,12 @@ export class AuthService {
     })
   };
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    public jwtHelper: JwtHelperService) { }
 
 
-  //GET:  login
+  //POST:  login
   login(email: string, password: string): Observable<any> {
     const data = {
       email,
@@ -38,4 +42,21 @@ export class AuthService {
     };
     return this.http.post<any>(environment.SERVER_URI + '/auth/signup', data, this.httpOptions);
   }
+
+
+  //TOKEN
+  authenticate(token: string): void {
+    localStorage.setItem('x-access-token', token);
+  }
+
+  logout(): void {
+    localStorage.removeItem('x-access-token');
+  }
+
+  isAuthenticated(): boolean {    
+    const token = localStorage.getItem('x-access-token');
+    return token != null;
+    // return !this.jwtHelper.isTokenExpired(token);   //throws an exception sometimes (The inspected token doesn't appear to be a JWT)
+  }
+
 }
