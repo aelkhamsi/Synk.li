@@ -12,6 +12,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class DashboardPage implements OnInit {
 
+  username: string;
   createRoomForm: FormGroup;
   joinRoomForm: FormGroup;
   formSubmitted: Boolean = false;
@@ -27,6 +28,9 @@ export class DashboardPage implements OnInit {
     this.joinRoomForm = this.fb.group({
       roomId: ["", [Validators.required, Validators.pattern(this.numericalRegex)]]
     })
+    this.username = this.authService.getUsername();
+    console.log(this.username);
+    
   }
 
   logout() {
@@ -36,13 +40,13 @@ export class DashboardPage implements OnInit {
 
 
   onCreate(): void {
-    console.log('skr');
+    this.router.navigate(['room']);
   }
 
   onJoin(): void {
     this.formSubmitted = true;
     if (this.joinRoomForm.invalid) return;
-    console.log('brr');
+    this.router.navigate(['room']);
   }
 
   // convenience getter for easy access to form fields

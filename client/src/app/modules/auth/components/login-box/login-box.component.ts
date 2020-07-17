@@ -43,7 +43,7 @@ export class LoginBoxComponent implements OnInit {
     const data = this.loginForm.value;
     this.authService.login(data.email, data.password)
         .subscribe( res => {
-          this.authService.authenticate(res.token);
+          this.authService.authenticate(res.token, res.username);
           this.router.navigate(['dashboard']);
         }, (error) => {
           if (error.status == 500)

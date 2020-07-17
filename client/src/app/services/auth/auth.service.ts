@@ -45,18 +45,24 @@ export class AuthService {
 
 
   //TOKEN
-  authenticate(token: string): void {
+  authenticate(token: string, username: string): void {
     localStorage.setItem('x-access-token', token);
+    localStorage.setItem('x-username', username);
   }
 
   logout(): void {
     localStorage.removeItem('x-access-token');
+    localStorage.removeItem('x-username');
   }
 
   isAuthenticated(): boolean {    
     const token = localStorage.getItem('x-access-token');
     return token != null;
     // return !this.jwtHelper.isTokenExpired(token);   //throws an exception sometimes (The inspected token doesn't appear to be a JWT)
+  }
+
+  getUsername(): string {
+    return localStorage.getItem('x-username');
   }
 
 }

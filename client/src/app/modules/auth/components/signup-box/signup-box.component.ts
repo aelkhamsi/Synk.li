@@ -45,8 +45,8 @@ export class SignupBoxComponent implements OnInit {
     const data = this.signupForm.value;
     this.authService.signup(data.username, data.email, data.password)
       .subscribe( res => {
-        this.authService.authenticate(res.token);
-        this.router.navigate(['dashboard']);
+        this.openSnackBar("User added", "");
+        this.router.navigate(['login']);
       }, (error) => {
         if (error.status == 500)
           this.openSnackBar("Internal Server error. Please try later", "Error");

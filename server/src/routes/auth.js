@@ -17,8 +17,8 @@ function login(req, res) {
       .then( result => {
         if (result) {  //Email exists
           const hash = result.password
-          bcrypt.compare(password, hash, function(err, result) {
-            if (result) { //Good password
+          bcrypt.compare(password, hash, function(err, r) {
+            if (r) { //Good password
               const user = {
                 username: result.username,
                 email: result.email
@@ -26,26 +26,26 @@ function login(req, res) {
               jwt.sign(user, "iamthegreatestaliveandiamhumble", function(err, token) {    //TODO tmp
                 res
                   .status(200)
-                  .json({token: token})
+                  .json({token: token, username: result.username})
               })
             }
             else { //Wrong Password
               res
               .status(404)
-              .json({errorMessage: "Wrong Password"})
+              .json({errorMessage: "Incorrect Email or Password"})
             }
           });
         }
         else {  //Email doesn't exist
           res
             .status(404)
-            .json({errorMessage: "There is not account under this email"})
+            .json({errorMessage: "Incorrect Email or Password"})
         }
       })
       .catch(err => {
         res
           .status(500)
-          .json({errorMessage: "Internal server error. Please try another time"});
+          .json({errorMessage: "Internal server error. Please try later"});
       })
   }
   else {
@@ -78,7 +78,6 @@ function signup(req, res, next) {
 
             db.collection("users").insertOne(user)
               .then(result => {
-                console.log("User Added");
                 res
                   .status(200)
                   .json({message: "User added"})

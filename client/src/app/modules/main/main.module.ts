@@ -6,13 +6,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MainRoutingModule } from './main-routing.module';
 import { DashboardPage } from './pages/dashboard/dashboard.page';
 import { HeaderComponent } from './components/header/header.component';
+import { RoomPage } from './pages/room/room.page';
 
 
 
 @NgModule({
   declarations: [
     DashboardPage,
-    HeaderComponent
+    HeaderComponent,
+    RoomPage
   ],
   imports: [
     CommonModule,
