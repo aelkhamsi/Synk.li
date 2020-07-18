@@ -3,7 +3,7 @@ const server = require('http').createServer(app)
 const bodyParser = require('body-parser')
 
 const authRouter = require('./routes/auth.js');
-
+const roomRouter = require('./routes/room.js');
 
 ///////////////////////////////////////
 //////////// MIDDLEWARES //////////////
@@ -51,11 +51,45 @@ MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 ///////////////////////////////////////
 ///////// SOCKET CONNECTION ///////////
 ///////////////////////////////////////
+
 var sockets = [];
+
 const SOCKET_PORT = process.env.SOCKET_PORT | 3000
 const io = require('socket.io')(SOCKET_PORT);
 
-io.on('connection', (socket) => {})
+io.on('connection', (socket) => {
+  let handshake = socket.handshake;
+  if (handshake.query && handshake.query.roomID)
+  { // Connection accepted
+    let roomID = handshake.query.roomID;
+    db.collection.rooms. // TODO: something is missing here
+    sockets.push(socket);
+
+    socket.emit('message', 'you are connected');
+    console.log("socket connection accepted");
+    // console.log(sockets)
+    // console.log('-------------------------------------');
+  }
+  else
+  { // Connection refused
+    socket.emit('message', 'Socket connection failed. roomID not provided');
+    socket.disconnect(true);
+    console.log("socket connection refused");
+    // console.log(sockets);
+    // console.log('-------------------------------------');
+    return;
+  }
+
+  socket.on('disconnect', () => {
+    socket.emit('message', 'Socket connection aborted');
+    socket.disconnect(true);
+    removeElement(sockets, socket);
+    console.log("socket connection aborted");
+    // console.log(sockets);
+    // console.log('-------------------------------------');
+    return;
+  })
+});
 
 
 ///////////////////////////////////////

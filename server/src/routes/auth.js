@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10;
 const fs = require('fs')
 const router = require('express').Router()
-const User = require('../models/models').User
+const User = require('../models/user').User
 
 
 

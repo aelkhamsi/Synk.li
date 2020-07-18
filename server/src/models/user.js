@@ -1,9 +1,9 @@
 
 class User {
-  constructor(username, email, password) {
+  constructor(username, email, hash) {
     this.username = username
     this.email = email
-    this.password = password
+    this.hash = hash
   }
 
   test() {
