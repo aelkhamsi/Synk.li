@@ -67,35 +67,32 @@ const io = require('socket.io')(SOCKET_PORT);
 //To connect to the socket, we should have an ID of an already created room
 io.on('connection', (socket) => {
   let handshake = socket.handshake;
-  if (handshake.query && handshake.query.roomID)
-  { // Connection accepted
-    let roomID = handshake.query.roomID;
-    // db.collection.rooms. // TODO: something is missing here
-    sockets.push(socket);
+  let roomId = handshake.query.roomId;
+  let username = handshake.query.username;
 
+  if (handshake.query && roomId && username)
+  { // Connection accepted
+    socket.join(roomId);
     socket.emit('message', 'you are connected');
-    console.log("socket connection accepted");
-    // console.log(sockets)
-    // console.log('-------------------------------------');
+    socket.to(roomId).emit('message', `${username} is connected`);  //broadcast
+    console.log(`log: ${username} have succesfully connected to room ${roomId}`);
   }
   else
   { // Connection refused
-    socket.emit('message', 'Socket connection failed. roomID not provided');
+    socket.emit('message', 'Socket connection failed. roomID or Username not provided');
     socket.disconnect(true);
-    console.log("socket connection refused");
-    // console.log(sockets);
-    // console.log('-------------------------------------');
+    console.log(`log: ${username} have tried to connect to room ${roomId}. Connection failed`);
     return;
   }
 
   socket.on('disconnect', () => {
     socket.emit('message', 'Socket connection aborted');
     socket.disconnect(true);
-    removeElement(sockets, socket);
-    console.log("socket connection aborted");
-    // console.log(sockets);
-    // console.log('-------------------------------------');
-    return;
+    console.log(`log: ${username} have disconnected from room ${roomId}`);
+  })
+
+  socket.on('user-message', (message) => { //broadcast
+    socket.to(roomId).emit('user-message', message);
   })
 });
 

@@ -1,3 +1,15 @@
-<p>room works!</p>
 
-RoomID: {{ this.roomId }}
+RoomID: {{ this.roomId }} <br>
+Username: {{ this.username }} <br>
+
+<form [formGroup]="chatForm">
+
+    <mat-form-field class="form-control">
+        <input matInput placeholder="Message" formControlName="message">
+    </mat-form-field>
+
+    <div class="submit-button-container">
+        <button mat-raised-button type="submit" class="submit-button primary-color" (click)="onSubmit()"> Send </button>
+    </div>
+
+</form>
