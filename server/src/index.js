@@ -2,8 +2,9 @@ const app = require('express')()
 const server = require('http').createServer(app)
 const bodyParser = require('body-parser')
 
-const authRouter = require('./routes/auth.js');
-const roomRouter = require('./routes/room.js');
+const authRouter = require('./middlewares/auth.js');
+const roomRouter = require('./middlewares/room.js');
+const controller = require('./middlewares/token.js');
 
 ///////////////////////////////////////
 //////////// MIDDLEWARES //////////////
@@ -43,6 +44,7 @@ MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
     })
 
     app.use('/auth', authRouter)
+    app.use('/room', controller.checkToken, roomRouter)
 
   })
   .catch(err => {console.log(err)})
@@ -57,12 +59,13 @@ var sockets = [];
 const SOCKET_PORT = process.env.SOCKET_PORT | 3000
 const io = require('socket.io')(SOCKET_PORT);
 
+//To connect to the socket, we should have an ID of an already created room
 io.on('connection', (socket) => {
   let handshake = socket.handshake;
   if (handshake.query && handshake.query.roomID)
   { // Connection accepted
     let roomID = handshake.query.roomID;
-    db.collection.rooms. // TODO: something is missing here
+    // db.collection.rooms. // TODO: something is missing here
     sockets.push(socket);
 
     socket.emit('message', 'you are connected');

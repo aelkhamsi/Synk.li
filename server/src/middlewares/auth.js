@@ -4,7 +4,7 @@ const saltRounds = 10;
 const fs = require('fs')
 const router = require('express').Router()
 const User = require('../models/user').User
-
+const tokenController = require('../middlewares/token')
 
 
 function login(req, res) {
@@ -16,7 +16,7 @@ function login(req, res) {
     db.collection("users").findOne({ email: email})
       .then( result => {
         if (result) {  //Email exists
-          const hash = result.password
+          const hash = result.hash
           bcrypt.compare(password, hash, function(err, r) {
             if (r) { //Good password
               const user = {
@@ -57,7 +57,7 @@ function login(req, res) {
 
 
 
-function signup(req, res, next) {
+function signup(req, res) {
   const db = req.db
   const username = req.body.username
   const email = req.body.email
@@ -104,9 +104,34 @@ function signup(req, res, next) {
 }
 
 
+//dev
+async function token(req, res) {
+  const db = req.db
+  const token = req.body.token
+  if (token) {
+    const valid = await tokenController.checkToken(token);
+    console.log(valid);
+    if (valid) {
+      res
+      .status(200)
+      .json({result: "Token Valid"})
+    } else {
+      res
+        .status(410)
+        .json({result: "Token Not Valid"})
+    }
+  } else {
+    res
+      .status(410)
+      .json({result: "Token Not Valid"})
+  }
+}
+
+
 
 router.post("/login", login)
 router.post("/signup", signup)
+router.post("/token", token)
 
 
 module.exports = router;
