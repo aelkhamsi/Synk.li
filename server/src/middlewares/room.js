@@ -8,6 +8,7 @@ function getAllRooms(req, res) {
 
 // Create a new room and sends its ID to the client
 function createRoom(req, res) {
+  console.log("create room");
   const db = req.db;
   const room = new Room();
 
@@ -15,7 +16,7 @@ function createRoom(req, res) {
       .then(result => {
         res
           .status(201)
-          .json({ roomID: result.insertedId })
+          .json({ roomId: result.insertedId })
       })
       .catch(err => {
         res
@@ -27,16 +28,15 @@ function createRoom(req, res) {
 // Verify if the room exists or not. acts as a boolean
 function joinRoom(req, res) {
   const db = req.db;
-  const roomID = req.body.roomID;
-  console.log(roomID);
+  const roomId = req.body.roomId;
 
-  if (roomID) {
-    db.collection("rooms").findOne(ObjectId(roomID))
+  if (roomId) {
+    db.collection("rooms").findOne(ObjectId(roomId))
     .then( result => {
       if(result) {
         res
           .status(200)
-          .json({ roomID: roomID});  // this information is not relevant to the client
+          .json({ roomId: roomId});  // this information is not relevant to the client
       } else {
         res
           .status(404)

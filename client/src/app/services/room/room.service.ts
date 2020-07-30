@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 // import { Socket } from 'dgram';
-import { ResponseDTO } from '../../models/response-dto';
+// import { ResponseDTO } from '../../models/response-dto';
 
 @Injectable({
   providedIn: 'root'
@@ -20,13 +20,15 @@ export class RoomService {
   constructor(private http: HttpClient) { }
 
   createRoom(): Observable<any> {
-    return this.http.post<any>(this.SERVER_URI + '/create-room', {}, this.httpOptions);
+    return this.http.post<any>(this.SERVER_URI + '/room/create-room', {}, this.httpOptions);
   }
 
-  joinRoom(roomID: string): Observable<any> {
+  joinRoom(roomId: string): Observable<any> {
     const data = {
-      roomID: roomID
+      roomId: roomId
     };
-    return this.http.post<any>(this.SERVER_URI + '/join-room', data, this.httpOptions);
+    console.log(data);
+    
+    return this.http.post<any>(this.SERVER_URI + '/room/join-room', data, this.httpOptions);
   }
 }

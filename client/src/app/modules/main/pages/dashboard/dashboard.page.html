@@ -26,7 +26,7 @@
             </mat-form-field>
             <div *ngIf="formSubmitted && f.roomId.errors" class="invalid-feedback">
                 <div *ngIf="f.roomId.errors.required">Room ID is required</div>
-                <div *ngIf="f.roomId.errors.pattern">Room ID must be numerical</div>
+                <div *ngIf="f.roomId.errors.pattern">Room ID is not valid (must be a 24 hex characters string)</div>
             </div>
         </form>
 

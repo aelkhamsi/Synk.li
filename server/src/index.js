@@ -1,6 +1,7 @@
 const app = require('express')()
 const server = require('http').createServer(app)
 const bodyParser = require('body-parser')
+const cors = require('cors')
 
 const authRouter = require('./middlewares/auth.js');
 const roomRouter = require('./middlewares/room.js');
@@ -9,12 +10,15 @@ const controller = require('./middlewares/token.js');
 ///////////////////////////////////////
 //////////// MIDDLEWARES //////////////
 ///////////////////////////////////////
+// app.use(cors())
 app.use(bodyParser.json()) //Parsed data is populated on the request object (i.e. req.body).
 app.use(bodyParser.urlencoded( { extended: true }))
 app.use( (req, res, next ) => {
   res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH')
   res.header('Access-Control-Allow-Headers', 'Origin, Content-Type, X-Requested-With, Accept, x-access-token')
+  if (req.method == 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH')
+  }
   res.header('Content-Type', 'application/json') //REST-API: we only send back json data
   next()
 })
@@ -44,7 +48,8 @@ MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
     })
 
     app.use('/auth', authRouter)
-    app.use('/room', controller.checkToken, roomRouter)
+    // app.use('/room', controller.checkToken, roomRouter)
+    app.use('/room', roomRouter)
 
   })
   .catch(err => {console.log(err)})
