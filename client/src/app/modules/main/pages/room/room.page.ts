@@ -15,6 +15,7 @@ export class RoomPage implements OnInit {
   username: string;
   socket;
   chatForm: FormGroup;
+  messageContainer: HTMLElement;
 
   constructor(
     private fb: FormBuilder, 
@@ -34,6 +35,8 @@ export class RoomPage implements OnInit {
     this.chatForm = this.fb.group({
       message: ["", Validators.required],
     });
+
+    this.messageContainer = document.getElementById('message-container');
   }
 
   ngOnDestroy() {
@@ -57,8 +60,8 @@ export class RoomPage implements OnInit {
       console.log(`server message (socket): ${data}`)
     });
 
-    this.socket.on('user-message', (data) => {
-      console.log(`${data.username}: ${data.message}`);
+    this.socket.on('chat-message', (data) => {
+      this.displayMessage(`<span class="bold">${data.username}</span>: <span class="message">${data.message}</span>`, false);
     })
   }
 
@@ -70,16 +73,40 @@ export class RoomPage implements OnInit {
       message: this.chatForm.value.message
     };
 
-    this.socket.emit('user-message', data);
+    this.socket.emit('chat-message', data);
     this.chatForm.reset();
-    console.log(`You: ${data.message}`);
-    
+
+    this.displayMessage(`<b>You</b>: ${data.message}`, true);
+  }
+
+  displayMessage(message: string, self: boolean) {
+    //create
+    let messageElement = document.createElement('div');
+    messageElement.innerHTML = message;
+    //add classes
+    if (self)
+      messageElement.className = 'message-element message-element-self';
+      // messageElement.setAttribute('class', 'message-element message-element-self')
+    else 
+      messageElement.className = 'message-element message-element-other';
+      // messageElement.setAttribute('class', 'message-element message-element-other')
+
+    //append
+    messageElement = this.redraw(messageElement);
+    this.messageContainer.append(messageElement);
   }
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
       duration: 5000,
     });
+  }
+
+  redraw(elm) {
+    var n = document.createTextNode(' ');
+    elm.appendChild(n);
+    setTimeout(function(){ n.parentNode.removeChild(n) }, 0);
+    return elm;
   }
 
 }

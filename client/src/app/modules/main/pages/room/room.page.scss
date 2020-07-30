@@ -1,0 +1,44 @@
+
+
+.container {
+    display: flex;
+}
+
+
+.video-container {
+    background: rgb(255, 255, 208);
+    width: 50%;
+}
+
+.chat-container {
+    background: rgb(194, 194, 255);
+    width: 50%;
+}
+
+.headline-container {
+    width: 85%;
+    margin: 0 auto;
+    margin-bottom: 5%;
+}
+
+
+.bold {
+    font-weight: 500;
+}
+
+.message {
+    color: yellow;
+}
+
+.message-element-self {
+    text-align: right;
+}
+
+.message-element-other {
+    text-align: left;
+}
+
+.message-element {
+    color: black;
+    background: rgb(240, 240, 240);
+}

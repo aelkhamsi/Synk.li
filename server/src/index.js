@@ -91,8 +91,8 @@ io.on('connection', (socket) => {
     console.log(`log: ${username} have disconnected from room ${roomId}`);
   })
 
-  socket.on('user-message', (message) => { //broadcast
-    socket.to(roomId).emit('user-message', message);
+  socket.on('chat-message', (data) => { //broadcast
+    socket.to(roomId).emit('chat-message', data);
   })
 });
 
