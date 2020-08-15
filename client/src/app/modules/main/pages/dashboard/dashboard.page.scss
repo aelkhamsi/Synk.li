@@ -45,9 +45,26 @@
     color: white;
 }
 
+
 .invalid-feedback {
     color: rgb(161, 0, 0);
     font-size: small;
     text-align: center;
     margin-bottom: 17px;
+}
+
+@media only screen and (max-width: 1000px) {
+
+    .submit-button {
+        width: 50%;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .container {
+        display: inline;
+        // justify-content: space-between;
+        margin: 0 10%;
+        // margin-top: 10%;
+    }
 }

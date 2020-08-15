@@ -4,9 +4,37 @@ Username: {{ this.username }} <br>
 
 
 <div class="container">
-    <div class="video-container">
-        .
+    <div class="video-container" id="player">
+        <!-- <iframe 
+            width="100%" 
+            height="315" 
+            src="https://www.youtube.com/embed/9YffrCViTVk?enablejsapi=1" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
+            id="video"
+            allowfullscreen>
+        </iframe> -->
+
+        <!-- <div id="player"></div> -->
+
+        <youtube-player
+            [videoId]="videoId"
+            (ready)="onReady($event)"
+            (change)="onStateChange($event)"
+            width="100%"
+            height="100%"
+        ></youtube-player>
+
+        <div *ngIf="playerState !== 1" class="submit-button-container">
+            <button mat-raised-button class="submit-button primary-color" (click)="playVideo()"> Play </button>
+        </div>
+
+        <div *ngIf="playerState === 1" class="submit-button-container">
+            <button mat-raised-button class="submit-button primary-color" (click)="pauseVideo()"> Pause </button>
+        </div>
+        
     </div>
+
     
     <div class="chat-container">
         <div class="headline-container">
@@ -20,7 +48,7 @@ Username: {{ this.username }} <br>
         <form [formGroup]="chatForm" autocomplete="off">
     
             <mat-form-field class="form-control">
-                <input matInput placeholder="Message" formControlName="message">
+                <textarea matInput placeholder="Message" formControlName="message" cols=20 rows="4"> </textarea>
             </mat-form-field>
         
             <div class="submit-button-container">

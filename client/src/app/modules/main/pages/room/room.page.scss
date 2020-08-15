@@ -1,13 +1,14 @@
 
 
 .container {
+    margin-top: 10%;
     display: flex;
 }
 
 
 .video-container {
-    background: rgb(255, 255, 208);
-    width: 50%;
+    width: 70%;
+    height: 500px;
 }
 
 .chat-container {
@@ -41,4 +42,17 @@
 .message-element {
     color: black;
     background: rgb(240, 240, 240);
+}
+
+.submit-button:hover {
+    background: #db003b;
+}
+
+.submit-button {
+    width: 25%;
+    height: 50px;
+    font-size: 14pt;
+    font-weight: 100;
+    background: var(--main-color);
+    color: white;
 }

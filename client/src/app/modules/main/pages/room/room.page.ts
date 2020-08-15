@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import * as io from 'socket.io-client';
@@ -10,12 +10,21 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
   templateUrl: './room.page.html',
   styleUrls: ['./room.page.scss']
 })
-export class RoomPage implements OnInit {
+export class RoomPage implements OnInit, OnDestroy {
   roomId: string;
   username: string;
-  socket;
+  socket: any;
   chatForm: FormGroup;
   messageContainer: HTMLElement;
+
+  // public YT: any;
+
+  private player: any;
+  videoId: string;
+  playerState: number;
+
+  // public reframed: Boolean = false;
+
 
   constructor(
     private fb: FormBuilder, 
@@ -37,11 +46,33 @@ export class RoomPage implements OnInit {
     });
 
     this.messageContainer = document.getElementById('message-container');
+
+    this.videoId = 'MGs2f1ncMgA';
   }
 
+  @HostListener('unloaded')  
   ngOnDestroy() {
     this.socket.emit('disconnect', '');
   }
+
+  onStateChange(event) {
+    this.playerState = event.data; 
+    if (this.playerState == 1 || this.playerState == 2)
+      this.socket.emit('player-state', this.playerState);
+  }
+
+  onReady(player) {
+    this.player = player;
+  }
+  
+  playVideo() {
+    this.player.playVideo();
+  }
+  
+  pauseVideo() {
+    this.player.pauseVideo();
+  }
+
 
   connectSocket() {
     this.socket = io(environment.SOCKET_URI, {query: `roomId=${this.roomId}&username=${this.username}`});
@@ -63,7 +94,19 @@ export class RoomPage implements OnInit {
     this.socket.on('chat-message', (data) => {
       this.displayMessage(`<span class="bold">${data.username}</span>: <span class="message">${data.message}</span>`, false);
     })
+
+    this.socket.on('player-state', (state) => {
+      if (state == 1) {
+        this.player.playVideo()
+        this.playerState = state;
+      }
+      else if (state == 2) {
+        this.player.pauseVideo()
+        this.playerState = state;
+      }
+    })
   }
+
 
   onSubmit() {
     if (this.chatForm.invalid) return;
@@ -79,34 +122,24 @@ export class RoomPage implements OnInit {
     this.displayMessage(`<b>You</b>: ${data.message}`, true);
   }
 
+
   displayMessage(message: string, self: boolean) {
-    //create
     let messageElement = document.createElement('div');
     messageElement.innerHTML = message;
-    //add classes
     if (self)
       messageElement.className = 'message-element message-element-self';
-      // messageElement.setAttribute('class', 'message-element message-element-self')
     else 
       messageElement.className = 'message-element message-element-other';
-      // messageElement.setAttribute('class', 'message-element message-element-other')
 
-    //append
-    messageElement = this.redraw(messageElement);
+    // messageElement = this.redraw(messageElement);
     this.messageContainer.append(messageElement);
   }
+
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
       duration: 5000,
     });
-  }
-
-  redraw(elm) {
-    var n = document.createTextNode(' ');
-    elm.appendChild(n);
-    setTimeout(function(){ n.parentNode.removeChild(n) }, 0);
-    return elm;
   }
 
 }

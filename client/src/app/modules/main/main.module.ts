@@ -8,6 +8,9 @@ import { DashboardPage } from './pages/dashboard/dashboard.page';
 import { HeaderComponent } from './components/header/header.component';
 import { RoomPage } from './pages/room/room.page';
 
+import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
+
+
 
 
 @NgModule({
@@ -22,6 +25,7 @@ import { RoomPage } from './pages/room/room.page';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    NgxYoutubePlayerModule.forRoot()
   ]
 })
 export class MainModule { }

@@ -1,4 +1,4 @@
-.login-box {
+.signup-box {
     width: 30%;
     margin-top: 5%;
     box-shadow: 3px 3px 7px 0px rgb(240, 240, 240);
@@ -59,3 +59,28 @@
     margin-bottom: 17px;
 }
 
+
+
+
+//Media queries for elements widths
+@media only screen and (max-width: 1200px) {
+    .signup-box {
+        width: 50%;
+    }
+}
+
+@media only screen and (max-width: 700px) {
+    .signup-box {
+        width: 70%;
+    }
+}
+
+@media only screen and (max-width: 500px) {
+    .signup-box {
+        width: 90%;
+    }
+
+    .submit-button {
+        width: 40%;
+    }
+}
