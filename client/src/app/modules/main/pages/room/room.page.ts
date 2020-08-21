@@ -121,7 +121,7 @@ export class RoomPage implements OnInit, OnDestroy {
     this.socket.emit('become-host', '');
   }
 
-  onSubmit() {
+  onSendChatMessage() {
     if (this.chatForm.invalid) return;
 
     let data = {

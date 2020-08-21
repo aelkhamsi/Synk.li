@@ -1,11 +1,35 @@
 <app-header></app-header>
 
-<div class="headlines">
+<div class=controls>
     <span class="headline primary-color">RoomID</span>: {{ this.roomId }} <br>
     <span class="headline primary-color">Username</span>: {{ this.username }} <br>
-    <div class="submit-button-container">
-        <button mat-raised-button type="submit" class="send-button" [routerLink]="['/dashboard']"> Leave the Room </button>  
+    <div class="first-control">
+        <div class="submit-button-container">
+            <button mat-raised-button type="submit" class="send-button" [routerLink]="['/dashboard']"> Leave the Room </button>  
+        </div>
+        <div *ngIf="playerState !== 1" class="submit-button-container">
+            <button mat-raised-button class="send-button" (click)="playVideo()"> Play </button>
+        </div>
+        
+        <div *ngIf="playerState === 1" class="submit-button-container">
+            <button mat-raised-button class="send-button" (click)="pauseVideo()"> Pause </button>
+        </div>
     </div>
+    
+    <div class="second-control">
+        <div class="submit-button-container">
+            <button mat-raised-button class="sync-button send-button" (click)="onSyncHost()"> Sync with Host </button>
+        </div>
+    
+        <div *ngIf="isHost === false" class="submit-button-container">
+            <button mat-raised-button class="host-button send-button" (click)="onBecomeHost()"> Become Host </button>
+        </div>
+    
+        <div *ngIf="isHost === true" class="submit-button-container">
+            <button mat-raised-button class="host-button send-button" (click)="onBecomeHost()" disabled> You are the Host! </button>
+        </div>
+    </div>
+    
 </div>
 
 
@@ -53,7 +77,7 @@
             </mat-form-field>
         
             <div class="submit-button-container">
-                <button mat-raised-button type="submit" class="send-button" (click)="onSubmit()"> Send </button>
+                <button mat-raised-button type="submit" class="send-button" (click)="onSendChatMessage()"> Send </button>
             </div>
         
         </form>
@@ -61,26 +85,4 @@
 
 </div>
 
-<div class="controls">
-    <div *ngIf="playerState !== 1" class="submit-button-container">
-        <button mat-raised-button class="send-button" (click)="playVideo()"> Play </button>
-    </div>
-    
-    <div *ngIf="playerState === 1" class="submit-button-container">
-        <button mat-raised-button class="send-button" (click)="pauseVideo()"> Pause </button>
-    </div>
-
-    <div class="submit-button-container">
-        <button mat-raised-button class="sync-button send-button" (click)="onSyncHost()"> Sync with Host </button>
-    </div>
-
-    <div *ngIf="isHost === false" class="submit-button-container">
-        <button mat-raised-button class="host-button send-button" (click)="onBecomeHost()"> Become Host </button>
-    </div>
-
-    <div *ngIf="isHost === true" class="submit-button-container">
-        <button mat-raised-button class="host-button send-button" (click)="onBecomeHost()" disabled> You are the Host! </button>
-    </div>
-    
-</div>
 
