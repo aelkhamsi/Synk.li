@@ -4,7 +4,7 @@
   "description": "Server for a ream-time video synchronization platform",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/index.js SOCKET_PORT=3001",
+    "dev": "nodemon src/index.js",
     "start": "node src/index.js"
   },
   "author": "A. EL KHAMSI",

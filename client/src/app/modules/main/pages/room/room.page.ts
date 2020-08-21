@@ -18,7 +18,9 @@ export class RoomPage implements OnInit, OnDestroy {
   chatForm: FormGroup;
   messageContainer: HTMLElement;
 
-  private player: any;
+  private player: YT.Player;
+  private playerTime: any;
+
   videoId: string;
   playerState: number;
   isHost: boolean = false;
@@ -45,6 +47,7 @@ export class RoomPage implements OnInit, OnDestroy {
     this.messageContainer = document.getElementById('message-container');
 
     this.videoId = 'MGs2f1ncMgA';
+    
   }
 
   @HostListener('unloaded')  
@@ -61,6 +64,7 @@ export class RoomPage implements OnInit, OnDestroy {
 
   onReady(player) {
     this.player = player;
+    console.log(this.player);
   }
   
   playVideo() {
@@ -80,7 +84,6 @@ export class RoomPage implements OnInit, OnDestroy {
     })
 
     this.socket.on('disconnect', (reason) => {
-      // console.log(reason);
       this.openSnackBar("You've left the room", "");
       this.router.navigate(['dashboard']);
     })

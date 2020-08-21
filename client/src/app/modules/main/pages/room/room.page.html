@@ -17,7 +17,7 @@
     </div>
     
     <div class="second-control">
-        <div class="submit-button-container">
+        <div *ngIf="isHost === false" class="submit-button-container">
             <button mat-raised-button class="sync-button send-button" (click)="onSyncHost()"> Sync with Host </button>
         </div>
     
@@ -26,9 +26,11 @@
         </div>
     
         <div *ngIf="isHost === true" class="submit-button-container">
-            <button mat-raised-button class="host-button send-button" (click)="onBecomeHost()" disabled> You are the Host! </button>
+            <button mat-raised-button class="host-button send-button" disabled> You are the Host! </button>
         </div>
     </div>
+
+    {{ this.playerTime }}
     
 </div>
 
