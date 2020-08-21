@@ -76,9 +76,15 @@ io.on('connection', (socket) => {
   { // Connection accepted
     socket.join(roomId);
     if (io.sockets.hosts == undefined) io.sockets.hosts = {}
-    if (io.sockets.hosts[roomId] == undefined) io.sockets.hosts[roomId] = socket.id;
+    if (io.sockets.hosts[roomId] == undefined)  {
+      io.sockets.hosts[roomId] = socket.id;
+      socket.emit('status-host', '');
+    } else {
+      socket.emit('status-nothost', '');
+    }
 
     socket.emit('message', 'you are connected');
+
     socket.to(roomId).emit('message', `${username} is connected`);  //broadcast
 
     ///////
@@ -129,11 +135,21 @@ io.on('connection', (socket) => {
     socket.to(roomId).emit('player-state', state);
   })
 
-  //socket.on('host-update', () => {
-  //  hosts[roomId] = socket
-  //})
+  socket.on('become-host', () => {
+    io.sockets.hosts[roomId] = socket.id;
+    socket.emit('status-host', '');
+    socket.to(roomId).emit('status-nothost');  //broadcast
+    ///////
+    //log//
+    ///////
+    console.log("\n----");
+    console.log("CHANGE OF HOSTS");
 
-  //socket.on('sync-with-host', () => {
+    console.log("\nHOSTS: \n", io.sockets.hosts);
+    console.log("----\n");
+  })
+
+  //socket.on('sync-host', () => {
   //  let data = hosts[roomId].emit('give-me-video-coords');
   //  socket.emit('sync-with-host', data)
   //})

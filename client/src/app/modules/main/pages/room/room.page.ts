@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import * as io from 'socket.io-client';
 import { MatSnackBar } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-room',
@@ -17,14 +18,10 @@ export class RoomPage implements OnInit, OnDestroy {
   chatForm: FormGroup;
   messageContainer: HTMLElement;
 
-  // public YT: any;
-
   private player: any;
   videoId: string;
   playerState: number;
-
-  // public reframed: Boolean = false;
-
+  isHost: boolean = false;
 
   constructor(
     private fb: FormBuilder, 
@@ -94,7 +91,7 @@ export class RoomPage implements OnInit, OnDestroy {
 
     this.socket.on('chat-message', (data) => {
       this.displayMessage(`<span class="bold">${data.username}</span>: <span class="message">${data.message}</span>`, false);
-    })
+    });
 
     this.socket.on('player-state', (state) => {
       if (state == 1) {
@@ -105,9 +102,24 @@ export class RoomPage implements OnInit, OnDestroy {
         this.player.pauseVideo()
         this.playerState = state;
       }
+    });
+
+    this.socket.on('status-host', () => {
+      this.isHost = true;
+    })
+
+    this.socket.on('status-nothost', () => {
+      this.isHost = false;
     })
   }
 
+  onSyncHost() {
+    //TODO
+  }
+
+  onBecomeHost() {
+    this.socket.emit('become-host', '');
+  }
 
   onSubmit() {
     if (this.chatForm.invalid) return;
@@ -121,10 +133,6 @@ export class RoomPage implements OnInit, OnDestroy {
     this.chatForm.reset();
 
     this.displayMessage(`<b>You</b>: ${data.message}`, true);
-  }
-
-  onLeaveRoom() {
-    this.socket.emit('disconnect', '');
   }
 
   displayMessage(message: string, self: boolean) {

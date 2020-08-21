@@ -3,6 +3,8 @@
 .container {
     margin-top: 5%;
     display: flex;
+    // height: 490px;
+    min-height: 100%;
 }
 
 
@@ -11,9 +13,12 @@
     color: #bb0032;
 }
 
+.headlines {
+    margin-left: 1%;
+}
+
 .video-container {
     width: 70%;
-    height: 500px;
 }
 
 .chat-container {
@@ -49,11 +54,11 @@
     background: rgb(240, 240, 240);
 }
 
-.submit-button:hover {
+.send-button:hover {
     background: #db003b;
 }
 
-.submit-button {
+.send-button {
     width: 25%;
     height: 50px;
     font-size: 14pt;
@@ -71,11 +76,24 @@
     background: #db003b;
 }
 
-.submit-button {
-    width: 25%;
-    height: 50px;
-    font-size: 14pt;
-    font-weight: 100;
-    background: var(--main-color);
-    color: white;
+
+.controls {
+    margin-left: 1%;
 }
+
+.sync-button {
+    background: var(--secondary-color);
+}
+
+.host-button {
+    background: #44a1ff;
+}
+
+.sync-button:hover {
+    background: #0053a7;
+}
+
+.host-button:hover {
+    background: #178afd;
+}
+
