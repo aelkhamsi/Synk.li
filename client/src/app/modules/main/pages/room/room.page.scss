@@ -1,12 +1,9 @@
 
-
 .container {
     margin-top: 5%;
     display: flex;
-    // height: 490px;
     min-height: 100%;
 }
-
 
 .headline {
     font-weight: bold;
@@ -32,7 +29,7 @@
 }
 
 .chat-container {
-    background: rgb(194, 194, 255);
+    background: rgb(245, 245, 245);
     width: 50%;
     // max-height: 500px;
 }
@@ -43,13 +40,8 @@
     margin-bottom: 5%;
 }
 
-
 .bold {
     font-weight: 500;
-}
-
-.message {
-    color: yellow;
 }
 
 .message-element-self {
@@ -116,11 +108,5 @@
     .chat-container {
         width: 100%;
     }
-
-    // .send-button {
-    //     width: 50%;
-    //     font-size: 12pt;
-    // }
-
 
 }

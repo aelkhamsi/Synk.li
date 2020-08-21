@@ -149,10 +149,23 @@ io.on('connection', (socket) => {
     console.log("----\n");
   })
 
-  //socket.on('sync-host', () => {
-  //  let data = hosts[roomId].emit('give-me-video-coords');
-  //  socket.emit('sync-with-host', data)
-  //})
+  socket.on('sync-host', () => {
+    let hostId = io.sockets.hosts[roomId];
+    //if there is no host, make 'socket' the host
+    if (hostId == undefined) {
+      io.sockets.hosts[roomId] = socket.id;
+      socket.emit('status-host', '');
+      socket.to(roomId).emit('status-nothost');
+      return;
+    }
+    //else
+    let host = io.sockets.sockets[hostId];
+    host.emit('get-hosttime', '');
+  });
+
+  socket.on('get-hosttime', (time) => {
+    socket.to(roomId).emit('sync-host', time); //broadcast the player time of the host
+  });
 
 });
 

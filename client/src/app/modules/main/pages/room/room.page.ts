@@ -20,6 +20,8 @@ export class RoomPage implements OnInit, OnDestroy {
 
   private player: YT.Player;
   private playerTime: any;
+  private date: Date;
+  private syncReqDuration: number;
 
   videoId: string;
   playerState: number;
@@ -88,6 +90,7 @@ export class RoomPage implements OnInit, OnDestroy {
       this.router.navigate(['dashboard']);
     })
 
+    ////Managing Chat messages
     this.socket.on('message', (data) => {
       console.log(`server message (socket): ${data}`)
     });
@@ -96,6 +99,7 @@ export class RoomPage implements OnInit, OnDestroy {
       this.displayMessage(`<span class="bold">${data.username}</span>: <span class="message">${data.message}</span>`, false);
     });
 
+    ////Synchronizing player state (play/pause)
     this.socket.on('player-state', (state) => {
       if (state == 1) {
         this.player.playVideo()
@@ -107,6 +111,7 @@ export class RoomPage implements OnInit, OnDestroy {
       }
     });
 
+    ////Updating Host status
     this.socket.on('status-host', () => {
       this.isHost = true;
     })
@@ -114,10 +119,27 @@ export class RoomPage implements OnInit, OnDestroy {
     this.socket.on('status-nothost', () => {
       this.isHost = false;
     })
+
+    ////Synchronizing player time
+    this.socket.on('sync-host', (time) => { //Sync with host
+      if (this.playerState == 1) {
+        let d = new Date();
+        this.syncReqDuration = d.getTime() - this.syncReqDuration;
+        console.log(this.syncReqDuration / 1000);
+        this.player.seekTo(time + this.syncReqDuration / 1000 + 0.4, true);
+      }
+      else this.player.seekTo(time, true);
+    })
+
+    this.socket.on('get-hosttime', () => { //Providing the time of the player (implies that you are the host)
+      this.socket.emit('get-hosttime', this.player.getCurrentTime());
+    })
   }
 
   onSyncHost() {
-    //TODO
+    let d = new Date();
+    this.syncReqDuration = d.getTime();
+    this.socket.emit('sync-host', '');
   }
 
   onBecomeHost() {
