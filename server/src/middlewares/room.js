@@ -25,6 +25,11 @@ function createRoom(req, res) {
       })
 }
 
+//It's the backend that calls this function when a room is empty
+// function destroyRoom(roomId) {
+//
+// }
+
 // Verify if the room exists or not. acts as a boolean
 function joinRoom(req, res) {
   const db = req.db;

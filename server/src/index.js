@@ -65,7 +65,9 @@ const SOCKET_PORT = process.env.SOCKET_PORT | 3000
 const io = require('socket.io')(SOCKET_PORT);
 
 //To connect to the socket, we should have an ID of an already created room
+
 io.on('connection', (socket) => {
+
   let handshake = socket.handshake;
   let roomId = handshake.query.roomId;
   let username = handshake.query.username;
@@ -73,27 +75,69 @@ io.on('connection', (socket) => {
   if (handshake.query && roomId && username)
   { // Connection accepted
     socket.join(roomId);
+    if (io.sockets.hosts == undefined) io.sockets.hosts = {}
+    if (io.sockets.hosts[roomId] == undefined) io.sockets.hosts[roomId] = socket.id;
+
     socket.emit('message', 'you are connected');
     socket.to(roomId).emit('message', `${username} is connected`);  //broadcast
-    console.log(`log: ${username} have succesfully connected to room ${roomId}`);
+
+    ///////
+    //log//
+    ///////
+    console.log("\n----");
+    console.log("CONNECT");
+    for (let id in io.sockets.adapter.rooms) {
+      console.log(`ROOM ID: ${id}.\n  length: ${io.sockets.adapter.rooms[id].length}`);
+    }
+
+    console.log("\nHOSTS: \n", io.sockets.hosts);
+    console.log("----\n");
+
   }
   else
   { // Connection refused
     socket.emit('message', 'Socket connection failed. roomID or Username not provided');
     socket.disconnect(true);
     console.log(`log: ${username} have tried to connect to room ${roomId}. Connection failed`);
-    return;
+    return; //break
   }
 
   socket.on('disconnect', () => {
     socket.emit('message', 'Socket connection aborted');
+    if (socket.id == io.sockets.hosts[roomId]) io.sockets.hosts[roomId] = undefined;
     socket.disconnect(true);
-    console.log(`log: ${username} have disconnected from room ${roomId}`);
+
+    ///////
+    //log//
+    ///////
+    console.log("\n----");
+    console.log("DISCONNECT");
+    for (let id in io.sockets.adapter.rooms) {
+      console.log(`ROOM ID: ${id}.\n  length: ${io.sockets.adapter.rooms[id].length}`);
+    }
+
+    console.log("\nHOSTS: \n", io.sockets.hosts);
+    console.log("----\n");
+
   })
 
   socket.on('chat-message', (data) => { //broadcast
     socket.to(roomId).emit('chat-message', data);
   })
+
+  socket.on('player-state', (state) => { //broadcast
+    socket.to(roomId).emit('player-state', state);
+  })
+
+  //socket.on('host-update', () => {
+  //  hosts[roomId] = socket
+  //})
+
+  //socket.on('sync-with-host', () => {
+  //  let data = hosts[roomId].emit('give-me-video-coords');
+  //  socket.emit('sync-with-host', data)
+  //})
+
 });
 
 

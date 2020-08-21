@@ -52,7 +52,8 @@ export class RoomPage implements OnInit, OnDestroy {
 
   @HostListener('unloaded')  
   ngOnDestroy() {
-    this.socket.emit('disconnect', '');
+    // this.socket.emit('disconnect', '');   doesn't work!!!
+    this.socket.disconnect();
   }
 
   onStateChange(event) {
@@ -82,8 +83,8 @@ export class RoomPage implements OnInit, OnDestroy {
     })
 
     this.socket.on('disconnect', (reason) => {
-      console.log(reason);
-      this.openSnackBar("Socket connection failed. Please try again later", "Error");
+      // console.log(reason);
+      this.openSnackBar("You've left the room", "");
       this.router.navigate(['dashboard']);
     })
 
@@ -122,6 +123,9 @@ export class RoomPage implements OnInit, OnDestroy {
     this.displayMessage(`<b>You</b>: ${data.message}`, true);
   }
 
+  onLeaveRoom() {
+    this.socket.emit('disconnect', '');
+  }
 
   displayMessage(message: string, self: boolean) {
     let messageElement = document.createElement('div');
@@ -131,7 +135,6 @@ export class RoomPage implements OnInit, OnDestroy {
     else 
       messageElement.className = 'message-element message-element-other';
 
-    // messageElement = this.redraw(messageElement);
     this.messageContainer.append(messageElement);
   }
 

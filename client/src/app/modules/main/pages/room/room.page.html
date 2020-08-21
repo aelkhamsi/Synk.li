@@ -1,6 +1,13 @@
+<app-header></app-header>
 
-RoomID: {{ this.roomId }} <br>
-Username: {{ this.username }} <br>
+<span class="headline primary-color">RoomID</span>: {{ this.roomId }} <br>
+<span class="headline primary-color">Username</span>: {{ this.username }} <br>
+<div class="submit-button-container">
+    <!-- <button mat-raised-button type="submit" class="submit-button primary-color" (click)="onLeaveRoom()"> Leave the Room </button>   -->
+    <button mat-raised-button type="submit" class="submit-button primary-color" [routerLink]="['/dashboard']"> Leave the Room </button>  
+</div>
+
+<!-- [routerLink]="['/dashboard']" -->
 
 
 <div class="container">
@@ -58,4 +65,3 @@ Username: {{ this.username }} <br>
         </form>
     </div>
 </div>
-
