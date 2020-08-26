@@ -1,12 +1,15 @@
 <app-header></app-header>
 
 <div class=controls>
-    <span class="headline primary-color">RoomID</span>: {{ this.roomId }} <br>
-    <span class="headline primary-color">Username</span>: {{ this.username }} <br>
-    <div class="first-control">
+    <div class="controls-room controls-item">
+        <span class="headline primary-color">RoomID</span>: {{ this.roomId }} <br>
+        <span class="headline primary-color">Username</span>: {{ this.username }} <br>
         <div class="submit-button-container">
             <button mat-raised-button type="submit" class="send-button" [routerLink]="['/dashboard']"> Leave the Room </button>  
         </div>
+    </div>
+    
+    <div class="controls-player controls-item">
         <div *ngIf="playerState !== 1" class="submit-button-container">
             <button mat-raised-button class="send-button" (click)="playVideo()"> Play </button>
         </div>
@@ -16,7 +19,7 @@
         </div>
     </div>
     
-    <div class="second-control">
+    <div class="controls-sync controls-item">
         <div *ngIf="isHost === false" class="submit-button-container">
             <button mat-raised-button class="sync-button send-button" (click)="onSyncHost()"> Sync with Host </button>
         </div>
@@ -29,29 +32,12 @@
             <button mat-raised-button class="host-button send-button" disabled> You are the Host! </button>
         </div>
     </div>
-
-    {{ this.playerTime }}
-    
 </div>
 
 
-<!-- [routerLink]="['/dashboard']" -->
 
-
-<div class="container">
+<div class="room-container">
     <div class="video-container" id="player">
-        <!-- <iframe 
-            width="100%" 
-            height="315" 
-            src="https://www.youtube.com/embed/9YffrCViTVk?enablejsapi=1" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-            id="video"
-            allowfullscreen>
-        </iframe> -->
-
-        <!-- <div id="player"></div> -->
-
         <youtube-player
             [videoId]="videoId"
             (ready)="onReady($event)"
@@ -62,29 +48,45 @@
         
     </div>
 
-    
-    <div class="chat-container">
+
+    <div class="url-container">
         <div class="headline-container">
-            <h1>Chat</h1>
+            <h2>Change Video URL</h2>
         </div>
-
-
-        <div class="message-container" id="message-container">
-        </div>
-
-        <form [formGroup]="chatForm" autocomplete="off">
     
+        <form [formGroup]="urlForm" autocomplete="off">
             <mat-form-field class="form-control">
-                <textarea matInput placeholder="Message" formControlName="message" cols=20 rows="4"> </textarea>
+                <input matInput placeholder="Video URL" formControlName="url"> 
             </mat-form-field>
         
             <div class="submit-button-container">
-                <button mat-raised-button type="submit" class="send-button" (click)="onSendChatMessage()"> Send </button>
+                <button mat-raised-button type="submit" class="send-button" (click)="onChangeUrl()"> Change Video URL </button>
             </div>
-        
         </form>
     </div>
-
+    
+    <!-- DDWKuo3gXMQ -->
 </div>
 
 
+
+<div class="chat-container">
+    <div class="headline-container">
+        <h1>Chat</h1>
+    </div>
+
+    <div class="message-container" id="message-container">
+    </div>
+
+    <form [formGroup]="chatForm" autocomplete="off" class="chat-form">
+
+        <mat-form-field class="form-control">
+            <input matInput placeholder="Message" formControlName="message">
+        </mat-form-field>
+    
+        <div class="submit-button-container">
+            <button mat-raised-button type="submit" class="send-button chat-button" (click)="onSendChatMessage()"> Send </button>
+        </div>
+    
+    </form>
+</div>

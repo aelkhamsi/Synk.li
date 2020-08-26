@@ -160,13 +160,12 @@ io.on('connection', (socket) => {
     }
     //else
     let host = io.sockets.sockets[hostId];
-    host.emit('get-hosttime', '');
+    host.emit('get-hoststate', '');
   });
 
-  socket.on('get-hosttime', (time) => {
+  socket.on('get-hoststate', (time) => {
     socket.to(roomId).emit('sync-host', time); //broadcast the player time of the host
   });
-
 });
 
 

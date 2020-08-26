@@ -1,8 +1,8 @@
 
-.container {
-    margin-top: 5%;
+.room-container {
     display: flex;
-    min-height: 100%;
+    background: rgb(245, 245, 245);
+    padding: 0;
 }
 
 .headline {
@@ -11,17 +11,12 @@
 }
 
 .controls {
-    margin-top: 1%;
-    margin-left: 1%;
+    background: rgb(220, 220, 220);
+    padding: 1%;
+    display: flex;
+    justify-content: space-between;
 }
 
-.first-control {
-    display: flex;
-}
-
-.second-control {
-    display: flex;
-}
 
 .video-container {
     width: 70%;
@@ -30,9 +25,16 @@
 
 .chat-container {
     background: rgb(245, 245, 245);
-    width: 50%;
+    text-align: center;
     // max-height: 500px;
 }
+
+.url-container {
+    text-align: center;
+    width: 30%;
+    padding-top: 4%;
+}
+
 
 .headline-container {
     width: 85%;
@@ -43,6 +45,15 @@
 .bold {
     font-weight: 500;
 }
+
+//CHAT 
+// .chat-form {
+
+// }
+
+// .input-chat-form {
+//     width: 90%;
+// }
 
 .message-element-self {
     text-align: right;
@@ -96,8 +107,9 @@
     background: #178afd;
 }
 
+
 @media only screen and (max-width: 800px) {
-    .container {
+    .room-container {
         display: inline;
     }
 
@@ -109,4 +121,20 @@
         width: 100%;
     }
 
+    .url-container {
+        width: 100%;
+    }
+
+}
+
+@media only screen and (max-width: 1000px) {
+
+    .controls {
+        display: inline;
+        background: inherit;
+    }
+
+    .send-button {
+        height: 40px;
+    }
 }

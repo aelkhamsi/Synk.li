@@ -44,7 +44,6 @@ export class DashboardPage implements OnInit {
 
 
   onCreate(): void {
-    
     this.roomService.createRoom()
       .subscribe((res) => {
         this.router.navigate(['/room', res]); 

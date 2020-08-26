@@ -4,7 +4,6 @@ import { environment } from 'src/environments/environment';
 import * as io from 'socket.io-client';
 import { MatSnackBar } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-room',
@@ -16,11 +15,11 @@ export class RoomPage implements OnInit, OnDestroy {
   username: string;
   socket: any;
   chatForm: FormGroup;
+  urlForm: FormGroup;
   messageContainer: HTMLElement;
+  videoIdRegex: RegExp = /v=.*/;
 
   private player: YT.Player;
-  private playerTime: any;
-  private date: Date;
   private syncReqDuration: number;
 
   videoId: string;
@@ -31,8 +30,9 @@ export class RoomPage implements OnInit, OnDestroy {
     private fb: FormBuilder, 
     private route: ActivatedRoute,
     private _snackBar: MatSnackBar,
-    private router: Router
-  ) { }
+    private router: Router,
+  ) { 
+  }
 
   ngOnInit() {
     this.roomId = this.route.snapshot.paramMap.get('roomId');
@@ -46,10 +46,19 @@ export class RoomPage implements OnInit, OnDestroy {
       message: ["", Validators.required],
     });
 
+    this.urlForm = this.fb.group({
+      url: ["", Validators.required]
+    })
+
     this.messageContainer = document.getElementById('message-container');
 
-    this.videoId = 'MGs2f1ncMgA';
-    
+    //VideoID
+    let videoId = this.route.snapshot.paramMap.get('videoId');
+    if (videoId) {
+      this.videoId = videoId;
+    } else {
+      this.videoId = 'MGs2f1ncMgA';
+    }
   }
 
   @HostListener('unloaded')  
@@ -121,18 +130,29 @@ export class RoomPage implements OnInit, OnDestroy {
     })
 
     ////Synchronizing player time
-    this.socket.on('sync-host', (time) => { //Sync with host
+    this.socket.on('sync-host', (hostState) => { //Sync with host
+      console.log(hostState);
+      
+      if (this.videoId != hostState.videoId) {
+        this.router.navigate(['/room', {roomId: this.roomId, videoId: hostState.videoId}])
+          .then(() => window.location.reload());
+      }
+
       if (this.playerState == 1) {
         let d = new Date();
         this.syncReqDuration = d.getTime() - this.syncReqDuration;
         console.log(this.syncReqDuration / 1000);
-        this.player.seekTo(time + this.syncReqDuration / 1000 + 0.4, true);
+        this.player.seekTo(hostState.playerTime + this.syncReqDuration / 1000 + 0.4, true);
       }
-      else this.player.seekTo(time, true);
+      else this.player.seekTo(hostState.playerTime, true);
     })
 
-    this.socket.on('get-hosttime', () => { //Providing the time of the player (implies that you are the host)
-      this.socket.emit('get-hosttime', this.player.getCurrentTime());
+    this.socket.on('get-hoststate', () => { //Providing the time of the player (implies that you are the host)
+      let hostState = {
+        "playerTime": this.player.getCurrentTime(),
+        "videoId": this.videoId
+      };
+      this.socket.emit('get-hoststate', hostState);
     })
   }
 
@@ -140,6 +160,8 @@ export class RoomPage implements OnInit, OnDestroy {
     let d = new Date();
     this.syncReqDuration = d.getTime();
     this.socket.emit('sync-host', '');
+
+    // this.player.
   }
 
   onBecomeHost() {
@@ -158,6 +180,28 @@ export class RoomPage implements OnInit, OnDestroy {
     this.chatForm.reset();
 
     this.displayMessage(`<b>You</b>: ${data.message}`, true);
+  }
+
+  onChangeUrl(videoId: string) {
+    if (this.urlForm.invalid) return;
+
+    console.log(videoId);
+    
+    if (videoId != undefined) {
+      this.videoId = videoId;
+      this.router.navigate(['/room', {roomId: this.roomId, videoId: this.videoId}])
+        .then(() => window.location.reload());
+      return;
+    }
+    else {
+      let url = this.urlForm.value.url;
+      this.videoId = this.videoIdRegex.exec(url)[0].slice(2);
+      console.log(this.videoId);
+      
+
+      this.router.navigate(['/room', {roomId: this.roomId, videoId: this.videoId}])
+        .then(() => window.location.reload());
+    }
   }
 
   displayMessage(message: string, self: boolean) {
