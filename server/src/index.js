@@ -78,13 +78,12 @@ io.on('connection', (socket) => {
     if (io.sockets.hosts == undefined) io.sockets.hosts = {}
     if (io.sockets.hosts[roomId] == undefined)  {
       io.sockets.hosts[roomId] = socket.id;
-      socket.emit('status-host', '');
+      socket.emit('put-status-to-host', '');
     } else {
-      socket.emit('status-nothost', '');
+      socket.emit('put-status-to-nothost', '');
     }
 
     socket.emit('message', 'you are connected');
-
     socket.to(roomId).emit('message', `${username} is connected`);  //broadcast
 
     ///////
@@ -131,14 +130,14 @@ io.on('connection', (socket) => {
     socket.to(roomId).emit('chat-message', data);
   })
 
-  socket.on('player-state', (state) => { //broadcast
-    socket.to(roomId).emit('player-state', state);
+  socket.on('host-player-state', (state) => { //broadcast
+    socket.to(roomId).emit('host-player-state', state);
   })
 
   socket.on('become-host', () => {
     io.sockets.hosts[roomId] = socket.id;
-    socket.emit('status-host', '');
-    socket.to(roomId).emit('status-nothost');  //broadcast
+    socket.emit('put-status-to-host', '');
+    socket.to(roomId).emit('put-status-to-nothost');  //broadcast
     ///////
     //log//
     ///////
@@ -149,13 +148,14 @@ io.on('connection', (socket) => {
     console.log("----\n");
   })
 
-  socket.on('sync-host', () => {
+  //Sync
+  socket.on('get-hoststate', () => {
     let hostId = io.sockets.hosts[roomId];
     //if there is no host, make 'socket' the host
     if (hostId == undefined) {
       io.sockets.hosts[roomId] = socket.id;
-      socket.emit('status-host', '');
-      socket.to(roomId).emit('status-nothost');
+      socket.emit('put-status-to-host', '');
+      socket.to(roomId).emit('put-status-to-nothost');
       return;
     }
     //else
@@ -163,9 +163,23 @@ io.on('connection', (socket) => {
     host.emit('get-hoststate', '');
   });
 
-  socket.on('get-hoststate', (time) => {
-    socket.to(roomId).emit('sync-host', time); //broadcast the player time of the host
+  socket.on('hoststate', (hostState) => {
+    socket.to(roomId).emit('hoststate', hostState); //broadcast the player time of the host
   });
+
+  socket.on('synchronized', () => {
+    let hostId = io.sockets.hosts[roomId];
+    //if there is no host, make 'socket' the host
+    if (hostId == undefined) {
+      io.sockets.hosts[roomId] = socket.id;
+      socket.emit('put-status-to-host', '');
+      socket.to(roomId).emit('put-status-to-nothost');
+      return;
+    }
+    //else
+    let host = io.sockets.sockets[hostId];
+    host.emit('synchronized', '');
+  })
 });
 
 

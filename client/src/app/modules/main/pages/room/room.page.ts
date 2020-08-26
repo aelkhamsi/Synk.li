@@ -21,12 +21,12 @@ export class RoomPage implements OnInit, OnDestroy {
 
   private player: YT.Player;
   private syncReqDuration: number;
+  private loadingDuration: number;
 
   videoId: string;
   playerState: number;
   isHost: boolean = false;
-  // inSync: boolean = false;
-  // hostUpdateIntervalId;
+  
   constructor(
     private fb: FormBuilder, 
     private route: ActivatedRoute,
@@ -58,7 +58,7 @@ export class RoomPage implements OnInit, OnDestroy {
     if (videoId) {
       this.videoId = videoId;
     } else {
-      this.videoId = 'MGs2f1ncMgA';
+      this.videoId = 'NjN4rOBZV2s';
     }
   }
 
@@ -69,110 +69,103 @@ export class RoomPage implements OnInit, OnDestroy {
   }
 
   onStateChange(event) {
+    console.log(event.data);
     this.playerState = event.data; 
-    if (this.playerState == 1 || this.playerState == 2 && this.isHost)
-      this.socket.emit('player-state', this.playerState);
+    if ((this.playerState == 1 || this.playerState == 2) && this.isHost) 
+      this.socket.emit('host-player-state', this.playerState);
   }
 
-  onReady(player) {
-    this.player = player;
-    console.log(this.player);
-  }
-  
-  playVideo() {
-    this.player.playVideo();
-  }
-  
-  pauseVideo() {
-    this.player.pauseVideo();
-  }
-
+  onReady(player) {this.player = player;}
+  playVideo() {this.player.playVideo();}
+  pauseVideo() {this.player.pauseVideo();}
 
   connectSocket() {
     this.socket = io(environment.SOCKET_URI, {query: `roomId=${this.roomId}&username=${this.username}`});
 
+
     this.socket.on('connect', () => {
       console.log("Socket connection with server established");
     })
+
 
     this.socket.on('disconnect', (reason) => {
       this.openSnackBar("You've left the room", "");
       this.router.navigate(['dashboard']);
     })
 
-    ////Managing Chat messages
-    this.socket.on('message', (data) => {
-      console.log(`server message (socket): ${data}`)
-    });
+    
 
-    this.socket.on('chat-message', (data) => {
-      this.displayMessage(`<span class="bold">${data.username}</span>: <span class="message">${data.message}</span>`, false);
-    });
+    ////Managing Chat messages
+    //----------------------
+    this.socket.on('message', (data) => { console.log(`server message (socket): ${data}`)});
+    this.socket.on('chat-message', (data) => { this.displayMessage(`<span class="bold">${data.username}</span>: <span class="message">${data.message}</span>`, false); });
+
+
 
     ////Synchronizing player state (play/pause)
-    this.socket.on('player-state', (state) => {
-      if (state == 1) {
-        this.player.playVideo()
-        this.playerState = state;
-      }
-      else if (state == 2) {
-        this.player.pauseVideo()
-        this.playerState = state;
-      }
+    //----------------------
+    this.socket.on('host-player-state', (hostPlayerState) => {
+      this.playerState = hostPlayerState;
+      if (hostPlayerState == 1) this.player.playVideo()
+      else if (hostPlayerState == 2) this.player.pauseVideo()
     });
 
+
+
     ////Updating Host status
-    this.socket.on('status-host', () => {
-      this.isHost = true;
-      // let hostState = {
-      //   "playerTime": this.player.getCurrentTime(),
-      //   "videoId": this.videoId
-      // };
-    
-      // setTimeout(() => {
-      //   this.hostUpdateIntervalId = setInterval(() => {
-      //     this.socket.emit('host-update', hostState);
-      //     console.log("Sending Update...");
-      //   }, 1000);
-      // }, 2000)
-      
-    })
+    //----------------------
+    this.socket.on('put-status-to-host', () => { this.isHost = true; })
+    this.socket.on('put-status-to-nothost', () => { this.isHost = false; })
 
-    this.socket.on('status-nothost', () => {
-      this.isHost = false;
-    })
 
-    ////Synchronizing player time & Video ID
-    this.socket.on('sync-host', (hostState) => { //Sync with host
-      console.log(hostState);
-      
+
+    ////Sync video state & time & ID
+    //----------------------
+    this.socket.on('hoststate', (hostState) => { 
+      //Sync videoID
       if (this.videoId != hostState.videoId) {
         this.router.navigate(['/room', {roomId: this.roomId, videoId: hostState.videoId}])
           .then(() => window.location.reload());
       }
-
-      if (this.playerState == 1) {
+      //Sync player state & time
+      this.playerState = hostState.playerState;
+      console.log("Host State: ", this.playerState);
+      
+      if (hostState.playerState == 1) {  //this case should not be necessary anymore (the host will pause the video until the client is synchronized)
         let d = new Date();
         this.syncReqDuration = d.getTime() - this.syncReqDuration;
-        console.log(this.syncReqDuration / 1000);
-        this.player.seekTo(hostState.playerTime + this.syncReqDuration / 1000 + 0.4, true);
+        this.player.seekTo(hostState.playerTime + this.syncReqDuration / 1000, true);
+        this.player.playVideo();
       }
-      else this.player.seekTo(hostState.playerTime, true);
+      else if (hostState.playerState == 2 || hostState.playerState == -1) {
+        this.player.seekTo(hostState.playerTime + 0.2, true);
+        this.player.pauseVideo();
+      }
+      this.socket.emit('synchronized', '');
     })
 
     this.socket.on('get-hoststate', () => { //Providing the time of the player (implies that you are the host)
+      this.player.pauseVideo();
+      this.playerState = 2;      
+
       let hostState = {
         "playerTime": this.player.getCurrentTime(),
+        "playerState": this.playerState,
         "videoId": this.videoId
       };
-      this.socket.emit('get-hoststate', hostState);
+      this.socket.emit('hoststate', hostState);
+    })
+
+    this.socket.on('synchronized', () => {
+      this.player.playVideo();
+      this.playerState = this.player.getPlayerState(); //it may be useless because onStateChange is called after playing the video (but whatever...)
     })
   }
 
   onSyncHost() {
     let d = new Date();
     this.syncReqDuration = d.getTime();
-    this.socket.emit('sync-host', '');
+    this.socket.emit('get-hoststate', '');
   }
 
   onBecomeHost() {
@@ -196,8 +189,6 @@ export class RoomPage implements OnInit, OnDestroy {
   onChangeUrl(videoId: string) {
     if (this.urlForm.invalid) return;
 
-    console.log(videoId);
-    
     if (videoId != undefined) {
       this.videoId = videoId;
       this.router.navigate(['/room', {roomId: this.roomId, videoId: this.videoId}])
@@ -207,9 +198,6 @@ export class RoomPage implements OnInit, OnDestroy {
     else {
       let url = this.urlForm.value.url;
       this.videoId = this.videoIdRegex.exec(url)[0].slice(2);
-      console.log(this.videoId);
-      
-
       this.router.navigate(['/room', {roomId: this.roomId, videoId: this.videoId}])
         .then(() => window.location.reload());
     }
