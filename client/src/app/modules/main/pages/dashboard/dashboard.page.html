@@ -1,6 +1,9 @@
 <app-header></app-header>
 
-<div class="container">
+
+<i class="fas fa-sign-out-alt fa-2x" (click)="logout()"></i>
+
+<div class="container">    
 
     <div class="create-room">
         <div class="headline-container">
@@ -37,6 +40,3 @@
     </div>
 
 </div>
-
-
-{{ this.username }} <button (click)="logout()">Log Out</button>

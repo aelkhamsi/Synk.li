@@ -2,9 +2,25 @@
     display: flex;
     justify-content: space-between;
     margin: 0 10%;
-    margin-top: 10%;
+    margin-top: 0;
 }
 
+.fas {
+    margin-top: 10px;
+    margin-left: 10px;
+    color: var(--main-color);
+}
+
+.fas:hover {
+    cursor: pointer;
+    color: #bb0032;
+}
+
+// .logout {
+//     width: 100%;
+//     background: rgb(250, 250, 250);
+//     margin-bottom: 0;
+// }
 .create-room {
     width: 50%;
     box-shadow: 3px 3px 7px 0px rgb(240, 240, 240);
@@ -19,6 +35,10 @@
     background-color: rgb(250, 250, 250);
     padding: 3%;
     margin-left: 2%;
+}
+
+.form-control {
+    width: 50%;
 }
 
 
@@ -53,7 +73,7 @@
     margin-bottom: 17px;
 }
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1200px) {
 
     .submit-button {
         width: 50%;
@@ -63,8 +83,15 @@
 @media only screen and (max-width: 800px) {
     .container {
         display: inline;
-        // justify-content: space-between;
-        margin: 0 10%;
-        // margin-top: 10%;
+    }
+
+    .create-room {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .join-room {
+        width: 100%;
+        margin-left: 0;
     }
 }

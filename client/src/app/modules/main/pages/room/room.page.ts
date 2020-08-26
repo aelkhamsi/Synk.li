@@ -69,7 +69,11 @@ export class RoomPage implements OnInit, OnDestroy {
   }
 
   onStateChange(event) {
+    // let d = new Date();
+    // if (event.data == 3) this.loadingDuration = d.getTime(); 
+    // else if (event.data != 3 && this.playerState == 3) this.player.seekTo(this.player.getCurrentTime() + d.getTime() - this.loadingDuration, true)
     console.log(event.data);
+    
     this.playerState = event.data; 
     if ((this.playerState == 1 || this.playerState == 2) && this.isHost) 
       this.socket.emit('host-player-state', this.playerState);
@@ -157,8 +161,10 @@ export class RoomPage implements OnInit, OnDestroy {
     })
 
     this.socket.on('synchronized', () => {
-      this.player.playVideo();
-      this.playerState = this.player.getPlayerState(); //it may be useless because onStateChange is called after playing the video (but whatever...)
+      this.sleep(1000).then(() => {
+        this.player.playVideo();
+        this.playerState = this.player.getPlayerState(); //it may be useless because onStateChange is called after playing the video (but whatever...)
+      })
     })
   }
 
@@ -219,6 +225,10 @@ export class RoomPage implements OnInit, OnDestroy {
     this._snackBar.open(message, action, {
       duration: 5000,
     });
+  }
+
+  sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
 }
