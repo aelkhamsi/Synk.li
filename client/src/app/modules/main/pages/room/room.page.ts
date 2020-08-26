@@ -25,7 +25,8 @@ export class RoomPage implements OnInit, OnDestroy {
   videoId: string;
   playerState: number;
   isHost: boolean = false;
-
+  // inSync: boolean = false;
+  // hostUpdateIntervalId;
   constructor(
     private fb: FormBuilder, 
     private route: ActivatedRoute,
@@ -69,7 +70,7 @@ export class RoomPage implements OnInit, OnDestroy {
 
   onStateChange(event) {
     this.playerState = event.data; 
-    if (this.playerState == 1 || this.playerState == 2)
+    if (this.playerState == 1 || this.playerState == 2 && this.isHost)
       this.socket.emit('player-state', this.playerState);
   }
 
@@ -123,13 +124,25 @@ export class RoomPage implements OnInit, OnDestroy {
     ////Updating Host status
     this.socket.on('status-host', () => {
       this.isHost = true;
+      // let hostState = {
+      //   "playerTime": this.player.getCurrentTime(),
+      //   "videoId": this.videoId
+      // };
+    
+      // setTimeout(() => {
+      //   this.hostUpdateIntervalId = setInterval(() => {
+      //     this.socket.emit('host-update', hostState);
+      //     console.log("Sending Update...");
+      //   }, 1000);
+      // }, 2000)
+      
     })
 
     this.socket.on('status-nothost', () => {
       this.isHost = false;
     })
 
-    ////Synchronizing player time
+    ////Synchronizing player time & Video ID
     this.socket.on('sync-host', (hostState) => { //Sync with host
       console.log(hostState);
       
@@ -160,8 +173,6 @@ export class RoomPage implements OnInit, OnDestroy {
     let d = new Date();
     this.syncReqDuration = d.getTime();
     this.socket.emit('sync-host', '');
-
-    // this.player.
   }
 
   onBecomeHost() {
