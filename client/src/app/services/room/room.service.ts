@@ -20,7 +20,8 @@ export class RoomService {
   constructor(private http: HttpClient) { }
 
   createRoom(): Observable<any> {
-    return this.http.post<any>(this.SERVER_URI + '/room/create-room', {}, this.httpOptions);
+    // return this.http.post<any>(this.SERVER_URI + '/room/create-room', {}, this.httpOptions);
+    return this.http.post<any>('room/create-room', {}, this.httpOptions);
   }
 
   joinRoom(roomId: string): Observable<any> {
@@ -28,7 +29,8 @@ export class RoomService {
       roomId: roomId
     };
     console.log(data);
-    
-    return this.http.post<any>(this.SERVER_URI + '/room/join-room', data, this.httpOptions);
+
+    // return this.http.post<any>(this.SERVER_URI + '/room/join-room', data, this.httpOptions);
+    return this.http.post<any>('room/join-room', data, this.httpOptions);
   }
 }

@@ -29,7 +29,8 @@ export class AuthService {
       email,
       password
     };
-    return this.http.post<any>(environment.SERVER_URI + '/auth/login', data, this.httpOptions);
+    // return this.http.post<any>(environment.SERVER_URI + '/auth/login', data, this.httpOptions);
+    return this.http.post<any>('auth/login', data, this.httpOptions);
   }
 
 
@@ -40,7 +41,8 @@ export class AuthService {
       email,
       password
     };
-    return this.http.post<any>(environment.SERVER_URI + '/auth/signup', data, this.httpOptions);
+    // return this.http.post<any>(environment.SERVER_URI + '/auth/signup', data, this.httpOptions);
+    return this.http.post<any>('auth/signup', data, this.httpOptions);
   }
 
 
@@ -55,7 +57,7 @@ export class AuthService {
     localStorage.removeItem('x-username');
   }
 
-  isAuthenticated(): boolean {    
+  isAuthenticated(): boolean {
     const token = localStorage.getItem('x-access-token');
     return token != null;
     // return !this.jwtHelper.isTokenExpired(token);   //throws an exception sometimes (The inspected token doesn't appear to be a JWT)
