@@ -62,8 +62,9 @@ MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 
 var sockets = [];
 
-const SOCKET_PORT = process.env.SOCKET_PORT | 3000
-const io = require('socket.io')(SOCKET_PORT);
+// const SOCKET_PORT = process.env.SOCKET_PORT | 3000
+// const io = require('socket.io')(SOCKET_PORT);
+const io = require('socket.io').listen(server);
 
 //To connect to the socket, we should have an ID of an already created room
 
