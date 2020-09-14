@@ -3,9 +3,9 @@ const server = require('http').createServer(app)
 const bodyParser = require('body-parser')
 const cors = require('cors')
 
-const authRouter = require('./middlewares/auth.js');
-const roomRouter = require('./middlewares/room.js');
-const controller = require('./middlewares/token.js');
+const authRouter = require('./src/middlewares/auth.js');
+const roomRouter = require('./src/middlewares/room.js');
+const controller = require('./src/middlewares/token.js');
 
 ///////////////////////////////////////
 //////////// MIDDLEWARES //////////////
