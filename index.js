@@ -193,5 +193,5 @@ const SERVER_PORT = process.env.PORT || 8080;
 
 //app.listen...
 server.listen(SERVER_PORT, () => {
-  console.log("Running on port " + PORT)
+  console.log("Running on port " + SERVER_PORT)
 })
