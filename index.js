@@ -29,7 +29,8 @@ app.use( (req, res, next ) => {
 ////////////////////////////////////////
 const MongoClient = require('mongodb').MongoClient;
 // const url = 'mongodb://localhost:27017/sync';
-const url = 'mongodb+srv://achraf:achraf@cluster0.tcfev.mongodb.net/sync?retryWrites=true&w=majority'
+// const url = 'mongodb+srv://achraf:achraf@cluster0.tcfev.mongodb.net/sync?retryWrites=true&w=majority'
+const url = 'mongodb+srv://achraf:achraf@cluster0.bj6rh.mongodb.net/admin?retryWrites=true&w=majority';
 var db;
 
 MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
