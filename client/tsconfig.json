@@ -4,7 +4,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "baseUrl": "./",
-    "outDir": "../server/public",
+    "outDir": "../public",
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,

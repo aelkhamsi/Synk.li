@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../server/public/spec",
+    "outDir": "../public/spec",
     "types": [
       "jasmine",
       "node"

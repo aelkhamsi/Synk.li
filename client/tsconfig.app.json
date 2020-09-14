@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "../server/public/app",
+    "outDir": "../public/app",
     "types": []
   },
   "include": [
