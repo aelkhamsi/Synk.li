@@ -26,13 +26,13 @@ export class RoomPage implements OnInit, OnDestroy {
   videoId: string;
   playerState: number;
   isHost: boolean = false;
-  
+
   constructor(
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
     private route: ActivatedRoute,
     private _snackBar: MatSnackBar,
     private router: Router,
-  ) { 
+  ) {
   }
 
   ngOnInit() {
@@ -62,7 +62,7 @@ export class RoomPage implements OnInit, OnDestroy {
     }
   }
 
-  @HostListener('unloaded')  
+  @HostListener('unloaded')
   ngOnDestroy() {
     // this.socket.emit('disconnect', '');   doesn't work!!!
     this.socket.disconnect();
@@ -70,12 +70,12 @@ export class RoomPage implements OnInit, OnDestroy {
 
   onStateChange(event) {
     // let d = new Date();
-    // if (event.data == 3) this.loadingDuration = d.getTime(); 
+    // if (event.data == 3) this.loadingDuration = d.getTime();
     // else if (event.data != 3 && this.playerState == 3) this.player.seekTo(this.player.getCurrentTime() + d.getTime() - this.loadingDuration, true)
     console.log(event.data);
-    
-    this.playerState = event.data; 
-    if ((this.playerState == 1 || this.playerState == 2) && this.isHost) 
+
+    this.playerState = event.data;
+    if ((this.playerState == 1 || this.playerState == 2) && this.isHost)
       this.socket.emit('host-player-state', this.playerState);
   }
 
@@ -97,7 +97,7 @@ export class RoomPage implements OnInit, OnDestroy {
       this.router.navigate(['dashboard']);
     })
 
-    
+
 
     ////Managing Chat messages
     //----------------------
@@ -125,7 +125,7 @@ export class RoomPage implements OnInit, OnDestroy {
 
     ////Sync video state & time & ID
     //----------------------
-    this.socket.on('hoststate', (hostState) => { 
+    this.socket.on('hoststate', (hostState) => {
       //Sync videoID
       if (this.videoId != hostState.videoId) {
         this.router.navigate(['/room', {roomId: this.roomId, videoId: hostState.videoId}])
@@ -134,7 +134,7 @@ export class RoomPage implements OnInit, OnDestroy {
       //Sync player state & time
       this.playerState = hostState.playerState;
       console.log("Host State: ", this.playerState);
-      
+
       if (hostState.playerState == 1) {  //this case should not be necessary anymore (the host will pause the video until the client is synchronized)
         let d = new Date();
         this.syncReqDuration = d.getTime() - this.syncReqDuration;
@@ -150,7 +150,7 @@ export class RoomPage implements OnInit, OnDestroy {
 
     this.socket.on('get-hoststate', () => { //Providing the time of the player (implies that you are the host)
       this.player.pauseVideo();
-      this.playerState = 2;      
+      this.playerState = 2;
 
       let hostState = {
         "playerTime": this.player.getCurrentTime(),
@@ -192,21 +192,21 @@ export class RoomPage implements OnInit, OnDestroy {
     this.displayMessage(`<b>You</b>: ${data.message}`, true);
   }
 
-  onChangeUrl(videoId: string) {
+  onChangeUrl() { //videoId: string
     if (this.urlForm.invalid) return;
 
-    if (videoId != undefined) {
-      this.videoId = videoId;
-      this.router.navigate(['/room', {roomId: this.roomId, videoId: this.videoId}])
-        .then(() => window.location.reload());
-      return;
-    }
-    else {
-      let url = this.urlForm.value.url;
-      this.videoId = this.videoIdRegex.exec(url)[0].slice(2);
-      this.router.navigate(['/room', {roomId: this.roomId, videoId: this.videoId}])
-        .then(() => window.location.reload());
-    }
+    // if (videoId != undefined) {
+    //   this.videoId = videoId;
+    //   this.router.navigate(['/room', {roomId: this.roomId, videoId: this.videoId}])
+    //     .then(() => window.location.reload());
+    //   return;
+    // }
+    // else {
+    let url = this.urlForm.value.url;
+    this.videoId = this.videoIdRegex.exec(url)[0].slice(2);
+    this.router.navigate(['/room', {roomId: this.roomId, videoId: this.videoId}])
+      .then(() => window.location.reload());
+    // }
   }
 
   displayMessage(message: string, self: boolean) {
@@ -214,7 +214,7 @@ export class RoomPage implements OnInit, OnDestroy {
     messageElement.innerHTML = message;
     if (self)
       messageElement.className = 'message-element message-element-self';
-    else 
+    else
       messageElement.className = 'message-element message-element-other';
 
     this.messageContainer.append(messageElement);

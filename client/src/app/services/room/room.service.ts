@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
   providedIn: 'root'
 })
 export class RoomService {
-  SERVER_URI: string = environment.SERVER_URI;
+  // SERVER_URI: string = environment.SERVER_URI;
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',
@@ -21,7 +21,7 @@ export class RoomService {
 
   createRoom(): Observable<any> {
     // return this.http.post<any>(this.SERVER_URI + '/room/create-room', {}, this.httpOptions);
-    return this.http.post<any>('room/create-room', {}, this.httpOptions);
+    return this.http.post<any>('api/room/create-room', {}, this.httpOptions);
   }
 
   joinRoom(roomId: string): Observable<any> {
@@ -31,6 +31,6 @@ export class RoomService {
     console.log(data);
 
     // return this.http.post<any>(this.SERVER_URI + '/room/join-room', data, this.httpOptions);
-    return this.http.post<any>('room/join-room', data, this.httpOptions);
+    return this.http.post<any>('api/room/join-room', data, this.httpOptions);
   }
 }
