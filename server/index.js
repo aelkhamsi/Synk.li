@@ -10,7 +10,7 @@ const authRouter = require('./src/middlewares/auth.js');
 const roomRouter = require('./src/middlewares/room.js');
 const controller = require('./src/middlewares/token.js');
 
-const PORT = process.env.PORT || 8081;
+const PORT = process.env.PORT || 8080;
 
 ///////////////////////////////////////
 //////////// MIDDLEWARES //////////////
