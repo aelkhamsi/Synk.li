@@ -84,8 +84,9 @@ export class RoomPage implements OnInit, OnDestroy {
   pauseVideo() {this.player.pauseVideo();}
 
   connectSocket() {
-    this.socket = io(environment.SOCKET_URI, {query: `roomId=${this.roomId}&username=${this.username}`});
-
+    //this.socket = io("/socket", {path: '/socket.io', query: `roomId=${this.roomId}&username=${this.username}`});
+    //var socket = io('http://www.example.com/my-namespace', { path: '/myapp/socket.io'});
+    this.socket = io('http://localhost:8080', {query: `roomId=${this.roomId}&username=${this.username}`})
 
     this.socket.on('connect', () => {
       console.log("Socket connection with server established");

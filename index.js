@@ -5,6 +5,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const path = require('path')
 const fs = require('fs')
+const http = require('http')
 
 const authRouter = require('./src/middlewares/auth.js');
 const roomRouter = require('./src/middlewares/room.js');
@@ -16,6 +17,7 @@ const PORT = process.env.PORT || 8080;
 //////////// MIDDLEWARES //////////////
 ///////////////////////////////////////
 
+//app.use(cors());
 app.use(bodyParser.json()) //Parsed data is populated on the request object (i.e. req.body).
 app.use(bodyParser.urlencoded( { extended: true }))
 app.use( (req, res, next ) => {
@@ -27,7 +29,8 @@ app.use( (req, res, next ) => {
   res.header('Content-Type', 'application/json') //REST-API: we only send back json data
   next()
 })
-app.use(express.static(path.join(__dirname, 'public')));
+
+//app.use(express.static(path.join(__dirname, 'public')));
 
 
 //////////////////////////////
@@ -50,6 +53,10 @@ MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
       next();
     })
 
+    app.use('/api/auth', authRouter)
+    // app.use('/room', controller.checkToken, roomRouter)
+    app.use('/api/room', roomRouter)
+
   })
   .catch(err => {console.log(err)})
 
@@ -57,15 +64,15 @@ MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
 //// ROUTING //////
 ///////////////////
 
-app.use('/api/auth', authRouter)
-// app.use('/room', controller.checkToken, roomRouter)
-app.use('/api/room', roomRouter)
+// app.use('/api/auth', authRouter)
+// // app.use('/room', controller.checkToken, roomRouter)
+// app.use('/api/room', roomRouter)
 
 // Index Route
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+// app.get('/*', (req, res) => {
+//   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// });
 
 
 ///////////////////////////////////////
@@ -73,13 +80,12 @@ app.get('*', (req, res) => {
 ///////////////////////////////////////
 
 var sockets = [];
-
 // const SOCKET_PORT = process.env.SOCKET_PORT | 3000
 // const io = require('socket.io')(SOCKET_PORT);
-const io = require('socket.io').listen(server);
+const io = require('socket.io')(server);
+//const io = require('socket.io')(server, { path: '/socket.io'});
 
 //To connect to the socket, we should have an ID of an already created room
-
 io.on('connection', (socket) => {
 
   let handshake = socket.handshake;
@@ -200,8 +206,7 @@ io.on('connection', (socket) => {
 ///////////////////////////////////////
 ///////// SERVER CONNECTION ///////////
 ///////////////////////////////////////
-// const SERVER_PORT = process.env.SERVER_PORT | 5000;
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log("Running on port " + PORT)
 })
