@@ -86,7 +86,7 @@ export class RoomPage implements OnInit, OnDestroy {
   connectSocket() {
     //this.socket = io("/socket", {path: '/socket.io', query: `roomId=${this.roomId}&username=${this.username}`});
     //var socket = io('http://www.example.com/my-namespace', { path: '/myapp/socket.io'});
-    this.socket = io('http://localhost:8080', {query: `roomId=${this.roomId}&username=${this.username}`})
+    this.socket = io('', {query: `roomId=${this.roomId}&username=${this.username}`})
 
     this.socket.on('connect', () => {
       console.log("Socket connection with server established");
@@ -143,7 +143,7 @@ export class RoomPage implements OnInit, OnDestroy {
         this.player.playVideo();
       }
       else if (hostState.playerState == 2 || hostState.playerState == -1) {
-        this.player.seekTo(hostState.playerTime + 0.2, true);
+        this.player.seekTo(hostState.playerTime + 0.3, true);
         this.player.pauseVideo();
       }
       this.socket.emit('synchronized', '');
@@ -204,6 +204,7 @@ export class RoomPage implements OnInit, OnDestroy {
     // }
     // else {
     let url = this.urlForm.value.url;
+    console.log(this.videoIdRegex.exec(url))
     this.videoId = this.videoIdRegex.exec(url)[0].slice(2);
     this.router.navigate(['/room', {roomId: this.roomId, videoId: this.videoId}])
       .then(() => window.location.reload());

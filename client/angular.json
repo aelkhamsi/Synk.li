@@ -24,11 +24,11 @@
             "tsConfig": "tsconfig.app.json",
             "aot": false,
             "assets": [
-              "src/favicon.ico",
+              "src/assets/favicon.png",
               "src/assets"
             ],
             "styles": [
-              // "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              
               "src/styles.scss"
             ],
             "scripts": []
@@ -85,11 +85,11 @@
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
             "assets": [
-              "src/favicon.ico",
+              "src/assets/favicon.png",
               "src/assets"
             ],
             "styles": [
-              // "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              
               "src/styles.scss"
             ],
             "scripts": []
