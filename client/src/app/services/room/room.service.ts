@@ -10,6 +10,7 @@ import { environment } from '../../../environments/environment';
 })
 export class RoomService {
   // SERVER_URI: string = environment.SERVER_URI;
+  SERVER_URI: string = "http://localhost:8080";
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type':  'application/json',

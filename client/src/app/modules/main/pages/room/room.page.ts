@@ -17,7 +17,7 @@ export class RoomPage implements OnInit, OnDestroy {
   chatForm: FormGroup;
   urlForm: FormGroup;
   messageContainer: HTMLElement;
-  videoIdRegex: RegExp = /v=.*/;
+  videoIdRegex: RegExp = /v=.*&|v=.*/;
 
   private player: YT.Player;
   private syncReqDuration: number;
@@ -204,8 +204,15 @@ export class RoomPage implements OnInit, OnDestroy {
     // }
     // else {
     let url = this.urlForm.value.url;
-    console.log(this.videoIdRegex.exec(url))
-    this.videoId = this.videoIdRegex.exec(url)[0].slice(2);
+
+    let videoId = this.videoIdRegex.exec(url)[0]
+    if (videoId[videoId.length-1] == '&') {
+      videoId = videoId.slice(2, videoId.length-1);
+    } else {
+      videoId = videoId.slice(2);
+    }
+
+    this.videoId = videoId;
     this.router.navigate(['/room', {roomId: this.roomId, videoId: this.videoId}])
       .then(() => window.location.reload());
     // }
