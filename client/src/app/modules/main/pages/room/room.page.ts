@@ -17,7 +17,7 @@ export class RoomPage implements OnInit, OnDestroy {
   chatForm: FormGroup;
   urlForm: FormGroup;
   messageContainer: HTMLElement;
-  videoIdRegex: RegExp = /v=.*&|v=.*/;
+  videoIdRegex: RegExp = /v=.*&|v=.*|be\/.*/;
 
   private player: YT.Player;
   private syncReqDuration: number;
@@ -206,7 +206,9 @@ export class RoomPage implements OnInit, OnDestroy {
     let url = this.urlForm.value.url;
 
     let videoId = this.videoIdRegex.exec(url)[0]
-    if (videoId[videoId.length-1] == '&') {
+    if (videoId.slice(0, 2) == "be") {
+      videoId = videoId.slice(3);
+    } else if (videoId[videoId.length-1] == '&') {
       videoId = videoId.slice(2, videoId.length-1);
     } else {
       videoId = videoId.slice(2);

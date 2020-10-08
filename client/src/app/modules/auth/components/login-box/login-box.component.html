@@ -23,6 +23,7 @@
                 <input matInput placeholder="Password" [type]="fieldTextType ? 'text' : 'password'" formControlName="password">
                 <mat-icon matSuffix class="eye-icon" (click)="toggleFieldTextType()">remove_red_eye</mat-icon>
             </mat-form-field>
+            
             <div *ngIf="formSubmitted && f.password.errors" class="invalid-feedback">
                 <div *ngIf="f.password.errors.required">Password is required</div>
                 <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>

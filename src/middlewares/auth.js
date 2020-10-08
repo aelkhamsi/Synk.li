@@ -9,11 +9,11 @@ const tokenController = require('../middlewares/token')
 
 function login(req, res) {
   const db = req.db
-  const email = req.body.email
+  const email = req.body.email.toLowerCase()
   const password = req.body.password
 
   if (email && password) {
-    db.collection("users").findOne({ email: email})
+    db.collection("users").findOne({email: email})
       .then( result => {
         if (result) {  //Email exists
           const hash = result.hash
@@ -60,7 +60,7 @@ function login(req, res) {
 function signup(req, res) {
   const db = req.db
   const username = req.body.username
-  const email = req.body.email
+  const email = req.body.email.toLowerCase()
   const password = req.body.password
 
   if (username && email && password) {

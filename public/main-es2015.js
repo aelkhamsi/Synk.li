@@ -63,7 +63,7 @@ module.exports = "<header>\n    <a [routerLink]=\"['/home']\">\n        <img src
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n\n    <div class=\"login-box\">\n        <div class=\"headline-container\">\n          <h1>Log In</h1>\n          <p class=\"grey-text\">Need an account ? <a [routerLink]=\"['/signup']\" class=\"link-blue\">Sign Up</a></p>\n        </div>\n\n        <form [formGroup]=\"loginForm\">\n\n            <!-- {{ loginForm.value | json }} -->\n\n            <mat-form-field class=\"form-control\">\n                <input matInput placeholder=\"Email\" formControlName=\"email\">\n            </mat-form-field>\n            <div *ngIf=\"formSubmitted && f.email.errors\" class=\"invalid-feedback\">\n                <div *ngIf=\"f.email.errors.required\">Email is required</div>\n                <div *ngIf=\"f.email.errors.email\">Email must be a valid email address</div>\n            </div>\n\n\n            <mat-form-field class=\"form-control\">\n                <input matInput placeholder=\"Password\" [type]=\"fieldTextType ? 'text' : 'password'\" formControlName=\"password\">\n                <mat-icon matSuffix class=\"eye-icon\" (click)=\"toggleFieldTextType()\">remove_red_eye</mat-icon>\n            </mat-form-field>\n            <div *ngIf=\"formSubmitted && f.password.errors\" class=\"invalid-feedback\">\n                <div *ngIf=\"f.password.errors.required\">Password is required</div>\n                <div *ngIf=\"f.password.errors.minlength\">Password must be at least 6 characters</div>\n            </div>\n            \n\n            <div class=\"submit-button-container\">\n                <div>\n                    <mat-checkbox \n                      color=\"primary\" \n                      formControlName=\"keepConnection\"\n                    >\n                      Keep me signed in\n                    </mat-checkbox>\n                </div>\n                \n                <div class=\"submit-button-container\">\n                    <button mat-raised-button type=\"submit\" class=\"submit-button primary-color\" (click)=\"onSubmit()\"> Log In </button>\n                </div>\n            </div>\n\n            \n\n      </form>\n    </div>\n\n</div>"
+module.exports = "<div class=\"container\">\n\n    <div class=\"login-box\">\n        <div class=\"headline-container\">\n          <h1>Log In</h1>\n          <p class=\"grey-text\">Need an account ? <a [routerLink]=\"['/signup']\" class=\"link-blue\">Sign Up</a></p>\n        </div>\n\n        <form [formGroup]=\"loginForm\">\n\n            <!-- {{ loginForm.value | json }} -->\n\n            <mat-form-field class=\"form-control\">\n                <input matInput placeholder=\"Email\" formControlName=\"email\">\n            </mat-form-field>\n            <div *ngIf=\"formSubmitted && f.email.errors\" class=\"invalid-feedback\">\n                <div *ngIf=\"f.email.errors.required\">Email is required</div>\n                <div *ngIf=\"f.email.errors.email\">Email must be a valid email address</div>\n            </div>\n\n\n            <mat-form-field class=\"form-control\">\n                <input matInput placeholder=\"Password\" [type]=\"fieldTextType ? 'text' : 'password'\" formControlName=\"password\">\n                <mat-icon matSuffix class=\"eye-icon\" (click)=\"toggleFieldTextType()\">remove_red_eye</mat-icon>\n            </mat-form-field>\n            \n            <div *ngIf=\"formSubmitted && f.password.errors\" class=\"invalid-feedback\">\n                <div *ngIf=\"f.password.errors.required\">Password is required</div>\n                <div *ngIf=\"f.password.errors.minlength\">Password must be at least 6 characters</div>\n            </div>\n            \n\n            <div class=\"submit-button-container\">\n                <div>\n                    <mat-checkbox \n                      color=\"primary\" \n                      formControlName=\"keepConnection\"\n                    >\n                      Keep me signed in\n                    </mat-checkbox>\n                </div>\n                \n                <div class=\"submit-button-container\">\n                    <button mat-raised-button type=\"submit\" class=\"submit-button primary-color\" (click)=\"onSubmit()\"> Log In </button>\n                </div>\n            </div>\n\n            \n\n      </form>\n    </div>\n\n</div>"
 
 /***/ }),
 
@@ -1417,7 +1417,7 @@ let RoomPage = class RoomPage {
         this.route = route;
         this._snackBar = _snackBar;
         this.router = router;
-        this.videoIdRegex = /v=.*&|v=.*/;
+        this.videoIdRegex = /v=.*&|v=.*|be\/.*/;
         this.isHost = false;
     }
     ngOnInit() {
@@ -1557,7 +1557,10 @@ let RoomPage = class RoomPage {
         // else {
         let url = this.urlForm.value.url;
         let videoId = this.videoIdRegex.exec(url)[0];
-        if (videoId[videoId.length - 1] == '&') {
+        if (videoId.slice(0, 2) == "be") {
+            videoId = videoId.slice(3);
+        }
+        else if (videoId[videoId.length - 1] == '&') {
             videoId = videoId.slice(2, videoId.length - 1);
         }
         else {
