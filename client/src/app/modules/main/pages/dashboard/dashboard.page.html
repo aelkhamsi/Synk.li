@@ -3,17 +3,17 @@
 
 <i class="fas fa-sign-out-alt fa-2x" (click)="logout()"></i>
 
-<div class="container">    
+<div class="container">
 
     <div class="create-room">
         <div class="headline-container">
             <h1>Create a Room</h1>
         </div>
-  
+
         <div class="submit-button-container">
             <button mat-raised-button type="submit" class="submit-button primary-color" (click)="onCreate()"> Create </button>
         </div>
-            
+
     </div>
 
 
@@ -23,17 +23,17 @@
             <h1>Join a Room</h1>
         </div>
 
-        <form [formGroup]="joinRoomForm"> 
+        <form [formGroup]="joinRoomForm">
             <mat-form-field class="form-control">
                 <input matInput placeholder="Room ID" formControlName="roomId">
             </mat-form-field>
             <div *ngIf="formSubmitted && f.roomId.errors" class="invalid-feedback">
                 <div *ngIf="f.roomId.errors.required">Room ID is required</div>
-                <div *ngIf="f.roomId.errors.pattern">Room ID is not valid (must be a 24 hex characters string)</div>
+                <div *ngIf="f.roomId.errors.pattern">Room ID is not valid (must be a 9 characters string)</div>
             </div>
         </form>
 
-        
+
         <div class="submit-button-container">
             <button mat-raised-button type="submit" class="submit-button primary-color" (click)="onJoin()"> Join </button>
         </div>

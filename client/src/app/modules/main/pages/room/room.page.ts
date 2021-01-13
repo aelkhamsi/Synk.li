@@ -17,7 +17,7 @@ export class RoomPage implements OnInit, OnDestroy {
   chatForm: FormGroup;
   urlForm: FormGroup;
   messageContainer: HTMLElement;
-  videoIdRegex: RegExp = /v=.*&|v=.*|be\/.*/;
+  videoIdRegex: RegExp = /v=.*?&|v=.*|be\/.*/;
 
   private player: YT.Player;
   private syncReqDuration: number;
@@ -62,7 +62,7 @@ export class RoomPage implements OnInit, OnDestroy {
     }
   }
 
-  @HostListener('unloaded')
+  //@HostListener('unloaded')
   ngOnDestroy() {
     // this.socket.emit('disconnect', '');   doesn't work!!!
     this.socket.disconnect();
@@ -86,6 +86,8 @@ export class RoomPage implements OnInit, OnDestroy {
   connectSocket() {
     //this.socket = io("/socket", {path: '/socket.io', query: `roomId=${this.roomId}&username=${this.username}`});
     //var socket = io('http://www.example.com/my-namespace', { path: '/myapp/socket.io'});
+
+    //this.socket = io('http://localhost', {query: `roomId=${this.roomId}&username=${this.username}`})
     this.socket = io('', {query: `roomId=${this.roomId}&username=${this.username}`})
 
     this.socket.on('connect', () => {
@@ -94,7 +96,7 @@ export class RoomPage implements OnInit, OnDestroy {
 
 
     this.socket.on('disconnect', (reason) => {
-      this.openSnackBar("You've left the room", "");
+      this.openSnackBar("You've left the room", reason);
       this.router.navigate(['dashboard']);
     })
 

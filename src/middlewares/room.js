@@ -1,6 +1,8 @@
 const express = require('express');
 const Room = require('../models/room').Room;
 const ObjectId = require('mongodb').ObjectID;
+const shortid = require('shortid');
+
 
 function getAllRooms(req, res) {
   // TODO
@@ -10,13 +12,14 @@ function getAllRooms(req, res) {
 function createRoom(req, res) {
   console.log("create room");
   const db = req.db;
-  const room = new Room();
+  const id = shortid.generate();
+  const room = new Room(id);
 
   db.collection("rooms").insertOne(room)
       .then(result => {
         res
           .status(201)
-          .json({ roomId: result.insertedId })
+          .json({ roomId: id })
       })
       .catch(err => {
         res
@@ -36,7 +39,8 @@ function joinRoom(req, res) {
   const roomId = req.body.roomId;
 
   if (roomId) {
-    db.collection("rooms").findOne(ObjectId(roomId))
+    //db.collection("rooms").findOne(ObjectId(roomId))
+    db.collection("rooms").findOne({id: roomId})
     .then( result => {
       if(result) {
         res

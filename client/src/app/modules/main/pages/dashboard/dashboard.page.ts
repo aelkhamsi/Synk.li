@@ -18,7 +18,7 @@ export class DashboardPage implements OnInit {
   // createRoomForm: FormGroup;
   joinRoomForm: FormGroup;
   formSubmitted: Boolean = false;
-  hexRegex: string = "[0-9a-f]{24}";
+  hexRegex: string = "[0-9a-zA-Z]{9}";
 
   constructor(
     private fb: FormBuilder,
@@ -34,19 +34,19 @@ export class DashboardPage implements OnInit {
     })
     this.username = this.authService.getUsername();
     console.log(this.username);
-    
+
   }
 
   logout() {
     this.authService.logout();
     this.router.navigate(['home']);
-  } 
+  }
 
 
   onCreate(): void {
     this.roomService.createRoom()
       .subscribe((res) => {
-        this.router.navigate(['/room', res]); 
+        this.router.navigate(['/room', res]);
       }, (error) => {
         if (error.status == 500)
           this.openSnackBar("Internal Server error. Please try later", "Error");
@@ -60,10 +60,10 @@ export class DashboardPage implements OnInit {
     if (this.joinRoomForm.invalid) return;
 
     const data = this.joinRoomForm.value;
-    
+
     this.roomService.joinRoom(data.roomId)
       .subscribe((res) => {
-        this.router.navigate(['/room', res]); 
+        this.router.navigate(['/room', res]);
       }, (error) => {
         if (error.status == 500)
           this.openSnackBar("Internal Server error. Please try later", "Error");

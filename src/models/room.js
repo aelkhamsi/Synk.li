@@ -1,5 +1,6 @@
 class Room {
-  constructor(sockets=[]) {
+  constructor(id, sockets=[]) {
+    this.id = id;
     this.sockets = sockets;
   }
 }

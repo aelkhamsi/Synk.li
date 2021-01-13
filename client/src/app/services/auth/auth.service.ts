@@ -30,7 +30,7 @@ export class AuthService {
       email,
       password
     };
-    // return this.http.post<any>(environment.SERVER_URI + '/auth/login', data, this.httpOptions);
+    //return this.http.post<any>(this.SERVER_URI + '/api/auth/login', data, this.httpOptions);
     return this.http.post<any>('api/auth/login', data, this.httpOptions);
   }
 
@@ -42,7 +42,7 @@ export class AuthService {
       email,
       password
     };
-    // return this.http.post<any>(environment.SERVER_URI + '/auth/signup', data, this.httpOptions);
+    //return this.http.post<any>(this.SERVER_URI + '/api/auth/signup', data, this.httpOptions);
     return this.http.post<any>('api/auth/signup', data, this.httpOptions);
   }
 

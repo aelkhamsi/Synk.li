@@ -37,9 +37,11 @@ app.use( (req, res, next ) => {
 ///////// DATABASE ///////////
 //////////////////////////////
 const MongoClient = require('mongodb').MongoClient;
-const url = 'mongodb://localhost:27017/sync';
+//const url = 'mongodb://localhost:27017/sync';
 // const url = 'mongodb+srv://achraf:achraf@cluster0.tcfev.mongodb.net/sync?retryWrites=true&w=majority'
-// const url = 'mongodb+srv://achraf:achraf@cluster0.bj6rh.mongodb.net/admin?retryWrites=true&w=majority';
+//const url = 'mongodb+srv://achraf:achraf@cluster0.bj6rh.mongodb.net/admin?retryWrites=true&w=majority';
+const url = 'mongodb+srv://achraf:achraf@cluster0.0ktnx.mongodb.net/synk?retryWrites=true&w=majority';
+
 var db;
 MongoClient.connect(url, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(client => {
@@ -109,14 +111,14 @@ io.on('connection', (socket) => {
     ///////
     //log//
     ///////
-    console.log("\n----");
-    console.log("CONNECT");
-    for (let id in io.sockets.adapter.rooms) {
-      console.log(`ROOM ID: ${id}.\n  length: ${io.sockets.adapter.rooms[id].length}`);
-    }
-
-    console.log("\nHOSTS: \n", io.sockets.hosts);
-    console.log("----\n");
+    // console.log("\n----");
+    // console.log("CONNECT");
+    // for (let id in io.sockets.adapter.rooms) {
+    //   console.log(`ROOM ID: ${id}.\n  length: ${io.sockets.adapter.rooms[id].length}`);
+    // }
+    //
+    // console.log("\nHOSTS: \n", io.sockets.hosts);
+    // console.log("----\n");
 
   }
   else
@@ -135,14 +137,14 @@ io.on('connection', (socket) => {
     ///////
     //log//
     ///////
-    console.log("\n----");
-    console.log("DISCONNECT");
-    for (let id in io.sockets.adapter.rooms) {
-      console.log(`ROOM ID: ${id}.\n  length: ${io.sockets.adapter.rooms[id].length}`);
-    }
-
-    console.log("\nHOSTS: \n", io.sockets.hosts);
-    console.log("----\n");
+    // console.log("\n----");
+    // console.log("DISCONNECT");
+    // for (let id in io.sockets.adapter.rooms) {
+    //   console.log(`ROOM ID: ${id}.\n  length: ${io.sockets.adapter.rooms[id].length}`);
+    // }
+    //
+    // console.log("\nHOSTS: \n", io.sockets.hosts);
+    // console.log("----\n");
 
   })
 
@@ -161,11 +163,11 @@ io.on('connection', (socket) => {
     ///////
     //log//
     ///////
-    console.log("\n----");
-    console.log("CHANGE OF HOSTS");
-
-    console.log("\nHOSTS: \n", io.sockets.hosts);
-    console.log("----\n");
+    // console.log("\n----");
+    // console.log("CHANGE OF HOSTS");
+    //
+    // console.log("\nHOSTS: \n", io.sockets.hosts);
+    // console.log("----\n");
   })
 
   //Sync

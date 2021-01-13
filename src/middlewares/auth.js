@@ -72,7 +72,6 @@ function signup(req, res) {
             .json({errorMessage: "This email is already used"})
         }
         else {
-
           bcrypt.hash(password, saltRounds, function(err, hash) {
             const user = new User(username, email, hash)
 

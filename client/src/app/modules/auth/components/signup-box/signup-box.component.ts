@@ -40,8 +40,11 @@ export class SignupBoxComponent implements OnInit {
 
   onSubmit() {
     this.formSubmitted = true;
-    if (this.signupForm.invalid) return;
-
+    if (this.signupForm.invalid) {
+      this.openSnackBar("Missing Fields", "");
+      return;
+    }
+    
     const data = this.signupForm.value;
     this.authService.signup(data.username, data.email, data.password)
       .subscribe( res => {
@@ -50,8 +53,11 @@ export class SignupBoxComponent implements OnInit {
       }, (error) => {
         if (error.status == 500)
           this.openSnackBar("Internal Server error. Please try later", "Error");
-        else
+        else {
+          console.log(error);
           this.openSnackBar(error.error.errorMessage, "Error");
+        }
+          
       })
   }
 
