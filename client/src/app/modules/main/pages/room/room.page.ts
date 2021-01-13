@@ -105,7 +105,7 @@ export class RoomPage implements OnInit, OnDestroy {
     ////Managing Chat messages
     //----------------------
     this.socket.on('message', (data) => { console.log(`server message (socket): ${data}`)});
-    this.socket.on('chat-message', (data) => { this.displayMessage(`<span class="bold">${data.username}</span>: <span class="message">${data.message}</span>`, false); });
+    this.socket.on('chat-message', (data) => { this.displayMessage(data.username, data.message, false) });
 
 
 
@@ -192,7 +192,7 @@ export class RoomPage implements OnInit, OnDestroy {
     this.socket.emit('chat-message', data);
     this.chatForm.reset();
 
-    this.displayMessage(`<b>You</b>: ${data.message}`, true);
+    this.displayMessage(data.username, data.message, true);
   }
 
   onChangeUrl() { //videoId: string
@@ -222,17 +222,46 @@ export class RoomPage implements OnInit, OnDestroy {
     // }
   }
 
-  displayMessage(message: string, self: boolean) {
+  displayMessage(username: string, message: string, self: boolean) {
     let messageElement = document.createElement('div');
     messageElement.innerHTML = message;
-    if (self)
-      messageElement.className = 'message-element message-element-self';
-    else
-      messageElement.className = 'message-element message-element-other';
+    messageElement.style.padding = "1%";
+    messageElement.style.borderRadius = "20px";
+    messageElement.style.overflow = "auto";
+    
+    if (self) {
+      messageElement.innerHTML = message;
+      messageElement.style.textAlign = "right";
+      messageElement.style.width = "60%";
+      messageElement.style.marginLeft = "38%";
+      messageElement.style.background = "#E77471";
+      messageElement.style.boxShadow = "-2px 2px 5px 0px rgba(163,163,163,1)";
+    } else {
+      messageElement.innerHTML = `<span style="font-weight:bold">${username}</span>: ${message}`;
+      messageElement.style.textAlign = "left";
+      messageElement.style.width = "60%";
+      messageElement.style.marginRight = "40%";
+      messageElement.style.background = "lightgray";
+      messageElement.style.boxShadow = "2px 2px 5px 0px rgba(163,163,163,1)";
+    }
 
     this.messageContainer.append(messageElement);
+    this.messageContainer.scrollTop = this.messageContainer.scrollHeight;
   }
 
+  copyText() {
+    const el = document.createElement('textarea');
+    el.value = this.roomId;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    console.log("copy text");
+
+    var copyButton = document.getElementById("copy-button");
+    copyButton.textContent = "Copied";
+    setTimeout(function(){ copyButton.textContent = "Copy"; }, 3000);
+  }
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {

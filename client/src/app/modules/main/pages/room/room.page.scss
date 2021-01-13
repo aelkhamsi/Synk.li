@@ -17,6 +17,10 @@
     justify-content: space-between;
 }
 
+.controls-sync {
+    display: flex;
+}
+
 
 .video-container {
     width: 70%;
@@ -26,7 +30,9 @@
 .chat-container {
     background: rgb(245, 245, 245);
     text-align: center;
+    width: 50%;
     // max-height: 500px;
+    margin-left: 20%;
 }
 
 .url-container {
@@ -39,7 +45,8 @@
 .headline-container {
     width: 85%;
     margin: 0 auto;
-    margin-bottom: 5%;
+    padding-top: .01%;
+    //margin-bottom: 5%;
 }
 
 .bold {
@@ -51,6 +58,7 @@
     margin-top: 5px;
     margin-left: 5px;
     color: #cf1b4b;
+    //color: #e0426c;
 }
 
 .fas:hover {
@@ -58,27 +66,15 @@
     color: #bb0032;
 }
 
-//CHAT 
-// .chat-form {
 
-// }
-
-// .input-chat-form {
-//     width: 90%;
-// }
-
-.message-element-self {
-    text-align: right;
+.message-container {
+    height: 145px;
+    text-align: initial;
+    border: solid 1px black;
+    overflow: auto;
+    background: #f8f8ee;
 }
 
-.message-element-other {
-    text-align: left;
-}
-
-.message-element {
-    color: black;
-    background: rgb(240, 240, 240);
-}
 
 .send-button:hover {
     background: #db003b;
@@ -93,6 +89,9 @@
     color: white;
 }
 
+.chat-button {
+  width: 20%;
+}
 
 .submit-button-container {
     margin-top: 10px;
@@ -131,12 +130,12 @@
 
     .chat-container {
         width: 100%;
+        margin-left: 0;
     }
 
     .url-container {
         width: 100%;
     }
-
 }
 
 @media only screen and (max-width: 1000px) {
@@ -148,5 +147,9 @@
 
     .send-button {
         height: 40px;
+    }
+
+    .controls-sync {
+        display: initial;
     }
 }
